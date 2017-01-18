@@ -1,11 +1,10 @@
-import { IPiece } from './pieces';
+import { IPiece } from './pieces/index';
+import Board from './board';
 
 type Square = IPiece | null;
 
 export class Coordinates {
-  private constructor(
-    private x: Number,
-    private y: Number) {
+  private constructor(public x: Number, public y: Number) {
   }
   static from(x: Number, y: Number) {
     return new this(x, y);
@@ -23,18 +22,18 @@ export default class Field {
   }
 
   toString(): String {
+    const {x, y} = this.coordinates;
     const cell = this.isEmpty ?
-      '　' : this.piece.toString();
-    return `[${cell}]`;
+      ('　') : this.piece.toString();
+    return `[${cell}(${x}, ${y})]`;
   }
 
-  possibleMoves(): Field[] {
+  possibleMoves(board: Board): Coordinates[] {
     if (this.isEmpty) {
       return [];
     }
 
-    // return this.piece
-
+    return this.piece.possibleMoves(this.coordinates, board);
   }
 
   static empty(coordinates: Coordinates): Field {
