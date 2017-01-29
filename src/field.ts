@@ -1,39 +1,32 @@
 import { IPiece } from './pieces/index';
+import { Coordinates } from './coordinates';
 import Board from './board';
-
-type Square = IPiece | null;
-
-export class Coordinates {
-  private constructor(public x: Number, public y: Number) {
-  }
-  static from(x: Number, y: Number) {
-    return new this(x, y);
-  }
-}
 
 export default class Field {
   constructor(
-    private coordinates: Coordinates,
-    private piece: Square = null) {
+    private _coordinates: Coordinates,
+    private _piece: IPiece = null) {
+  }
+
+  get piece(): IPiece {
+    return this._piece;
   }
 
   get isEmpty(): Boolean {
-    return this.piece == null;
+    return this._piece == null;
   }
 
   toString(): String {
-    const {x, y} = this.coordinates;
+    const {row, col} = this._coordinates;
     const cell = this.isEmpty ?
-      ('　') : this.piece.toString();
-    return `[${cell}(${x}, ${y})]`;
+      ('　') : this._piece.toString();
+    return `[${cell}(${row}, ${col})]`;
   }
 
   possibleMoves(board: Board): Coordinates[] {
-    if (this.isEmpty) {
-      return [];
-    }
-
-    return this.piece.possibleMoves(this.coordinates, board);
+    return this.isEmpty
+      ? []
+      : this._piece.possibleMoves(this._coordinates, board);
   }
 
   static empty(coordinates: Coordinates): Field {

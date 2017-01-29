@@ -1,4 +1,4 @@
-import { Coordinates } from '../field';
+import { Coordinates } from '../coordinates';
 import Board from '../board';
 
 export enum Color {
@@ -10,10 +10,11 @@ export interface IPiece {
   color: Color;
   weight: number;
   possibleMoves(coordinates: Coordinates, board: Board): Coordinates[];
-  toString(): String;
+  toString(): string;
+  pristine: boolean;
 }
 
-export class Piece implements IPiece {
+export abstract class Piece implements IPiece {
   readonly weight: number;
   constructor(public color: Color) { }
 
@@ -21,8 +22,16 @@ export class Piece implements IPiece {
     return [];
   }
 
-  static ofColor(color: Color): Piece {
-    return new this(color);
+  get white(): boolean {
+    return this.color === Color.white
+  }
+
+  get black(): boolean {
+    return !this.white;
+  }
+
+  get pristine(): boolean {
+    return true;
   }
 
 }

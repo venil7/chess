@@ -1,38 +1,36 @@
-import Field, { Coordinates } from './field';
+import Field from './field';
+import { Coordinates } from './coordinates';
 import { Pawn, Rook, Knight, Bishop, Queen, King, Color } from './pieces/index';
 
 type Fields = Field[][];
 
 export default class Board {
-  private fields: Fields;
-  private constructor(fields: Fields) {
-    this.fields = fields;
-  }
-  private static *rowGenerator() {
+  private constructor(private fields: Fields) { }
+  private static *singleRowGenerator() {
     const WIDTH = 8;
-    for (let x = 0; x < WIDTH; x++)
-      yield x;
+    for (let col = 0; col < WIDTH; col++)
+      yield col;
   }
-  private static *coordGenerator(y: Number) {
-    for (const x of Board.rowGenerator())
-      yield Coordinates.from(x, y);
+  private static *coordGenerator(row: number) {
+    for (const col of Board.singleRowGenerator())
+      yield Coordinates.from(col, row);
   }
 
   private static piecesRow(coordIterator: IterableIterator<Coordinates>, color: Color): Field[] {
     return [
-      new Field(coordIterator.next().value, Rook.ofColor(color)),
-      new Field(coordIterator.next().value, Knight.ofColor(color)),
-      new Field(coordIterator.next().value, Bishop.ofColor(color)),
-      new Field(coordIterator.next().value, Queen.ofColor(color)),
-      new Field(coordIterator.next().value, King.ofColor(color)),
-      new Field(coordIterator.next().value, Bishop.ofColor(color)),
-      new Field(coordIterator.next().value, Knight.ofColor(color)),
-      new Field(coordIterator.next().value, Rook.ofColor(color))
+      new Field(coordIterator.next().value, new Rook(color)),
+      new Field(coordIterator.next().value, new Knight(color)),
+      new Field(coordIterator.next().value, new Bishop(color)),
+      new Field(coordIterator.next().value, new Queen(color)),
+      new Field(coordIterator.next().value, new King(color)),
+      new Field(coordIterator.next().value, new Bishop(color)),
+      new Field(coordIterator.next().value, new Knight(color)),
+      new Field(coordIterator.next().value, new Rook(color))
     ];
   };
 
   private static pawnRow(coordIterator: IterableIterator<Coordinates>, color: Color): Field[] {
-    return [...coordIterator].map((coordinates) => new Field(coordinates, Pawn.ofColor(color)));
+    return [...coordIterator].map((coordinates) => new Field(coordinates, new Pawn(color)));
   };
 
   private static emptyRow(coordIterator: IterableIterator<Coordinates>): Field[] {
@@ -53,6 +51,11 @@ export default class Board {
 
     return new Board(fields);
   };
+
+  at(coordinates: Coordinates): Field {
+    const {col, row} = coordinates;
+    return this.fields[row][col];
+  }
 
   toString(): string {
     let str = '';
