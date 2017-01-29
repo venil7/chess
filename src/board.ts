@@ -1,5 +1,5 @@
 import Field, { Coordinates } from './field';
-import { Pawn, Rook, Knight, Bishop, Queen, King, Color } from 'pieces/index';
+import { Pawn, Rook, Knight, Bishop, Queen, King, Color } from './pieces/index';
 
 type Fields = Field[][];
 

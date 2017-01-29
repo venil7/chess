@@ -1,0 +1,7 @@
+{
+  "name": "chess",
+  "dependencies": {},
+  "globalDependencies": {
+    "mocha": "registry:dt/mocha#2.2.5+20170118061455"
+  }
+}
