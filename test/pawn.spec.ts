@@ -19,6 +19,24 @@ describe('Pawn', () => {
       expect(moves).to.eql([Coordinates.from(1, 5)]);
     });
 
+    // it('determines its possible move correctly, with obstacles', () => {
+    //   const fields = [
+    //     Board.emptyRow(),
+    //     Board.emptyRow(),
+    //     Board.emptyRow(),
+    //     Board.emptyRow(),
+    //     Board.emptyRow(),
+    //     Board.emptyRow(),
+    //     Board.pawnRow(Color.white)
+    //   ]
+    //   const board = new Board();
+    //   const coords = Coordinates.from(1, 6);
+    //   board.at(Coordinates.from(1, 5)).piece = {};
+    //   const pawn = board.at(coords).piece;
+    //   const moves = pawn.possibleMoves(coords, board);
+    //   expect(moves).to.eql([Coordinates.from(1, 5)]);
+    // });
+
   });
 
   describe('Black', () => {

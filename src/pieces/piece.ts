@@ -12,6 +12,7 @@ export interface IPiece {
   possibleMoves(coordinates: Coordinates, board: Board): Coordinates[];
   toString(): string;
   pristine: boolean;
+  clone(): IPiece;
 }
 
 export abstract class Piece implements IPiece {
@@ -32,6 +33,10 @@ export abstract class Piece implements IPiece {
 
   get pristine(): boolean {
     return true;
+  }
+
+  clone(): IPiece {
+    throw new Error('not implemented in abstract class');
   }
 
 }

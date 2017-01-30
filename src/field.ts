@@ -16,6 +16,14 @@ export default class Field {
     return this._piece == null;
   }
 
+  clone(piece: IPiece = null): Field {
+    const {_coordinates: {col, row}, _piece} = this;
+    return new Field(
+      Coordinates.from(col, row),
+      (_piece && _piece.clone()) || piece
+    );
+  }
+
   toString(): String {
     const {row, col} = this._coordinates;
     const cell = this.isEmpty ?

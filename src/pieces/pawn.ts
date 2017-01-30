@@ -12,4 +12,7 @@ export default class Pawn extends Piece implements IPiece {
       coordinates.down());
     return result;
   }
+  clone(): IPiece {
+    return new Pawn(this.color);
+  }
 }

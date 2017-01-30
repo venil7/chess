@@ -1,22 +1,28 @@
 import Field from './field';
 import { Coordinates } from './coordinates';
-import { Pawn, Rook, Knight, Bishop, Queen, King, Color } from './pieces/index';
+import { Pawn, Rook, Knight, Bishop, Queen, King, Color, Piece } from './pieces/index';
 
-type Fields = Field[][];
+export type Fields = Field[][];
 
 export default class Board {
-  private constructor(private fields: Fields) { }
+  constructor(private _fields: Fields) { }
+
+  get fields() {
+    return this._fields;
+  }
+
   private static *singleRowGenerator() {
     const WIDTH = 8;
     for (let col = 0; col < WIDTH; col++)
       yield col;
   }
+
   private static *coordGenerator(row: number) {
     for (const col of Board.singleRowGenerator())
       yield Coordinates.from(col, row);
   }
 
-  private static piecesRow(coordIterator: IterableIterator<Coordinates>, color: Color): Field[] {
+  static piecesRow(coordIterator: IterableIterator<Coordinates>, color: Color): Field[] {
     return [
       new Field(coordIterator.next().value, new Rook(color)),
       new Field(coordIterator.next().value, new Knight(color)),
@@ -29,11 +35,11 @@ export default class Board {
     ];
   };
 
-  private static pawnRow(coordIterator: IterableIterator<Coordinates>, color: Color): Field[] {
+  static pawnRow(coordIterator: IterableIterator<Coordinates>, color: Color): Field[] {
     return [...coordIterator].map((coordinates) => new Field(coordinates, new Pawn(color)));
   };
 
-  private static emptyRow(coordIterator: IterableIterator<Coordinates>): Field[] {
+  static emptyRow(coordIterator: IterableIterator<Coordinates>): Field[] {
     return [...coordIterator].map((coordinates) => new Field(coordinates));
   };
 
@@ -52,14 +58,33 @@ export default class Board {
     return new Board(fields);
   };
 
-  at(coordinates: Coordinates): Field {
+  public at(coordinates: Coordinates): Field {
     const {col, row} = coordinates;
-    return this.fields[row][col];
+    return this._fields[row][col];
   }
 
-  toString(): string {
+  public clone(): Board {
+    const fields = this._fields
+      .reduce((acc, row) => [...acc, ...row], [])
+      .map((field) => field.clone())
+      .reduce((acc: Fields, field) => {
+        const lastRow = acc[acc.length - 1];
+        (lastRow.length < 8) ? lastRow.push(field) : acc.push([field]);
+        return acc;
+      }, <Fields>[[]]);
+    return new Board(fields);
+  }
+
+  public setAt(coordinates: Coordinates, piece: Piece = null): Board {
+    const clone = this.clone();
+    const {col, row} = coordinates;
+    clone._fields[row][col] = new Field(Coordinates.from(col, row), piece);
+    return clone;
+  }
+
+  public toString(): string {
     let str = '';
-    for (const row of this.fields) {
+    for (const row of this._fields) {
       for (const cell of row) {
         str += cell.toString();
       }
