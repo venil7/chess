@@ -28,7 +28,7 @@ export default class Field {
     const {row, col} = this._coordinates;
     const cell = this.isEmpty ?
       ('　') : this._piece.toString();
-    return `[${cell}(${row}, ${col})]`;
+    return `[${cell}(${col},${row})]`;
   }
 
   possibleMoves(board: Board): Coordinates[] {

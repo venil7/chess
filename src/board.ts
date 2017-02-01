@@ -39,9 +39,24 @@ export default class Board {
     return [...coordIterator].map((coordinates) => new Field(coordinates, new Pawn(color)));
   };
 
-  static emptyRow(coordIterator: IterableIterator<Coordinates>): Field[] {
+  private static emptyRow(coordIterator: IterableIterator<Coordinates>): Field[] {
     return [...coordIterator].map((coordinates) => new Field(coordinates));
   };
+
+  static emptyGame(): Board {
+    const fields: Fields = [
+      Board.emptyRow(Board.coordGenerator(0)),
+      Board.emptyRow(Board.coordGenerator(1)),
+      Board.emptyRow(Board.coordGenerator(2)),
+      Board.emptyRow(Board.coordGenerator(3)),
+      Board.emptyRow(Board.coordGenerator(4)),
+      Board.emptyRow(Board.coordGenerator(5)),
+      Board.emptyRow(Board.coordGenerator(6)),
+      Board.emptyRow(Board.coordGenerator(7)),
+    ];
+
+    return new Board(fields);
+  }
 
   static newGame(): Board {
     const fields: Fields = [
@@ -85,8 +100,8 @@ export default class Board {
   public toString(): string {
     let str = '';
     for (const row of this._fields) {
-      for (const cell of row) {
-        str += cell.toString();
+      for (const field of row) {
+        str += field.toString();
       }
       str += '\n';
     }

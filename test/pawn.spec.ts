@@ -19,23 +19,26 @@ describe('Pawn', () => {
       expect(moves).to.eql([Coordinates.from(1, 5)]);
     });
 
-    // it('determines its possible move correctly, with obstacles', () => {
-    //   const fields = [
-    //     Board.emptyRow(),
-    //     Board.emptyRow(),
-    //     Board.emptyRow(),
-    //     Board.emptyRow(),
-    //     Board.emptyRow(),
-    //     Board.emptyRow(),
-    //     Board.pawnRow(Color.white)
-    //   ]
-    //   const board = new Board();
-    //   const coords = Coordinates.from(1, 6);
-    //   board.at(Coordinates.from(1, 5)).piece = {};
-    //   const pawn = board.at(coords).piece;
-    //   const moves = pawn.possibleMoves(coords, board);
-    //   expect(moves).to.eql([Coordinates.from(1, 5)]);
-    // });
+    it('determines its possible-moves correctly, with obstacles', () => {
+      const coords = Coordinates.from(1, 5);
+      const obstacleCoords = Coordinates.from(1, 4);
+      const board = Board.emptyGame().setAt(coords, new Pawn(Color.white));
+      const clone = board.setAt(obstacleCoords, new Pawn(Color.black));
+
+      const pawn = clone.at(coords).piece;
+      const moves = pawn.possibleMoves(coords, clone);
+      expect(moves).to.eql([]);
+    });
+
+    it('determines its possible-moves correctly, with strikes', () => {
+      const coords = Coordinates.from(1, 5);
+      const strikeCoords = Coordinates.from(2, 4);
+      const board = Board.emptyGame().setAt(coords, new Pawn(Color.white));
+      const clone = board.setAt(strikeCoords, new Pawn(Color.black));
+      const pawn = clone.at(coords).piece;
+      const moves = pawn.possibleMoves(coords, clone);
+      expect(moves).to.eql([Coordinates.from(1,4), strikeCoords]);
+    });
 
   });
 

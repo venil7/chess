@@ -41,4 +41,11 @@ describe('Chess board', () => {
     expect(board).to.not.eq(clone);
   });
 
+  it('sets the piece correctly, in non mutative way', () => {
+    const board = Board.emptyGame();
+    const clone = board.setAt(Coordinates.from(2, 2), new Rook(Color.white));
+    expect(board.at(Coordinates.from(2, 2)).piece).to.eql(null);
+    expect(clone.at(Coordinates.from(2, 2)).piece).to.eql(new Rook(Color.white));
+  })
+
 });
