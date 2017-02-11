@@ -15,13 +15,14 @@ describe('Rook', () => {
 
       const moves = rook.possibleMoves(coords, board);
       expect(moves).to.deep.include.members([
-        Coordinates.from(3, 2), Coordinates.from(3, 1), //north, strike
-        Coordinates.from(3, 4), Coordinates.from(3, 5), //south
-        Coordinates.from(4, 3), Coordinates.from(5, 3), //east
-        Coordinates.from(6, 3), Coordinates.from(7, 3), //east
-        Coordinates.from(0, 3), Coordinates.from(1, 3), //west
-        Coordinates.from(2, 3) //west
+        Coordinates.from(3, 2), Coordinates.from(3, 1), //up, strike
+        Coordinates.from(3, 4), Coordinates.from(3, 5), //down
+        Coordinates.from(4, 3), Coordinates.from(5, 3), //right
+        Coordinates.from(6, 3), Coordinates.from(7, 3), //right
+        Coordinates.from(0, 3), Coordinates.from(1, 3), //left
+        Coordinates.from(2, 3) //left
       ]);
+      expect(moves.length).to.equal(11);
     });
   });
 
@@ -33,14 +34,15 @@ describe('Rook', () => {
 
       const moves = rook.possibleMoves(coords, board);
       expect(moves).to.deep.include.members([
-        Coordinates.from(3, 2), //north
-        Coordinates.from(3, 4), Coordinates.from(3, 5), //south
-        Coordinates.from(3, 6), //south, strike
-        Coordinates.from(4, 3), Coordinates.from(5, 3), //east
-        Coordinates.from(6, 3), Coordinates.from(7, 3), //east
-        Coordinates.from(0, 3), Coordinates.from(1, 3), //west
-        Coordinates.from(2, 3) //west
+        Coordinates.from(3, 2), //up
+        Coordinates.from(3, 4), Coordinates.from(3, 5), //down
+        Coordinates.from(3, 6), //down, strike
+        Coordinates.from(4, 3), Coordinates.from(5, 3), //right
+        Coordinates.from(6, 3), Coordinates.from(7, 3), //right
+        Coordinates.from(0, 3), Coordinates.from(1, 3), //left
+        Coordinates.from(2, 3) //left
       ]);
+      expect(moves.length).to.equal(11);
     });
   });
 });
