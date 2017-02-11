@@ -2,8 +2,7 @@
 import Board from '../src/board';
 import Field from '../src/field';
 import { Coordinates } from '../src/coordinates';
-import { Pawn } from '../src/pieces/index';
-import { Color } from '../src/pieces/piece';
+import { Pawn, Color } from '../src/pieces/index';
 import * as chai from 'chai';
 const { assert, expect } = chai;
 

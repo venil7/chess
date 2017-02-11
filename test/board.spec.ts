@@ -2,8 +2,7 @@
 import Board from '../src/board';
 import Field from '../src/field';
 import { Coordinates } from '../src/coordinates';
-import { Rook,Pawn } from '../src/pieces/index';
-import { Color } from '../src/pieces/piece';
+import { Rook, Pawn, Color } from '../src/pieces/index';
 import * as chai from 'chai';
 const {assert, expect} = chai;
 
@@ -11,7 +10,6 @@ describe('Chess board', () => {
   it('prints correctlty, when new', () => {
     const board = Board.newGame();
     console.log(board.toString());
-    // expect(board.fields).to.have.property('fields').with.lengthOf(8);
   });
 
   it('gets correct field [Rook@0,0] by coordinates', () => {
