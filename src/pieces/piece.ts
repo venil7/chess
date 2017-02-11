@@ -39,7 +39,10 @@ export abstract class Piece implements IPiece {
     throw new Error('not implemented in abstract class');
   }
 
-  protected possiblePathMoves(path: IterableIterator<Coordinates>, board: Board, includeStrikes: boolean = true): Coordinates[] {
+  protected possiblePathMoves(
+    path: IterableIterator<Coordinates>,
+    board: Board,
+    includeStrikes: boolean = true): Coordinates[] {
     const moves = []
     for (const coord of path) {
       const field = board.at(coord);
