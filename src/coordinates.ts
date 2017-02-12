@@ -6,6 +6,10 @@ export class Coordinates {
     return new this(col, row);
   }
 
+  public get index(): number {
+    return this.row * 8 + this.col;
+  }
+
   public up(): Coordinates {
     if (this.row <= 0) {
       return null;

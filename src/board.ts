@@ -3,10 +3,12 @@ import Field from './field';
 import { Coordinates } from './coordinates';
 import { Pawn, Rook, Knight, Bishop, Queen, King, Color, Piece } from './pieces/index';
 
-export type Fields = Field[][];
+export type Fields = Field[];
 
 export default class Board {
-  constructor(private _fields: Fields, private _color: Color = Color.white) { }
+  constructor(
+    private _fields: Fields,
+    private _color: Color = Color.white) { }
 
   public get fields() {
     return this._fields;
@@ -46,14 +48,14 @@ export default class Board {
 
   static emptyGame(): Board {
     const fields: Fields = [
-      Board.emptyRow(Board.coordGenerator(0)),
-      Board.emptyRow(Board.coordGenerator(1)),
-      Board.emptyRow(Board.coordGenerator(2)),
-      Board.emptyRow(Board.coordGenerator(3)),
-      Board.emptyRow(Board.coordGenerator(4)),
-      Board.emptyRow(Board.coordGenerator(5)),
-      Board.emptyRow(Board.coordGenerator(6)),
-      Board.emptyRow(Board.coordGenerator(7)),
+      ...Board.emptyRow(Board.coordGenerator(0)),
+      ...Board.emptyRow(Board.coordGenerator(1)),
+      ...Board.emptyRow(Board.coordGenerator(2)),
+      ...Board.emptyRow(Board.coordGenerator(3)),
+      ...Board.emptyRow(Board.coordGenerator(4)),
+      ...Board.emptyRow(Board.coordGenerator(5)),
+      ...Board.emptyRow(Board.coordGenerator(6)),
+      ...Board.emptyRow(Board.coordGenerator(7)),
     ];
 
     return new Board(fields);
@@ -61,51 +63,42 @@ export default class Board {
 
   static newGame(): Board {
     const fields: Fields = [
-      Board.piecesRow(Board.coordGenerator(0), Color.black),
-      Board.pawnRow(Board.coordGenerator(1), Color.black),
-      Board.emptyRow(Board.coordGenerator(2)),
-      Board.emptyRow(Board.coordGenerator(3)),
-      Board.emptyRow(Board.coordGenerator(4)),
-      Board.emptyRow(Board.coordGenerator(5)),
-      Board.pawnRow(Board.coordGenerator(6), Color.white),
-      Board.piecesRow(Board.coordGenerator(7), Color.white),
+      ...Board.piecesRow(Board.coordGenerator(0), Color.black),
+      ...Board.pawnRow(Board.coordGenerator(1), Color.black),
+      ...Board.emptyRow(Board.coordGenerator(2)),
+      ...Board.emptyRow(Board.coordGenerator(3)),
+      ...Board.emptyRow(Board.coordGenerator(4)),
+      ...Board.emptyRow(Board.coordGenerator(5)),
+      ...Board.pawnRow(Board.coordGenerator(6), Color.white),
+      ...Board.piecesRow(Board.coordGenerator(7), Color.white),
     ];
 
     return new Board(fields);
   };
 
   public at(coordinates: Coordinates): Field {
-    const {col, row} = coordinates;
-    return this.fields[row][col];
+    return this.fields[coordinates.index];
   }
 
   public clone(): Board {
     const fields = this.fields
-      .reduce((acc, row) => [...acc, ...row], [])
-      .map((field) => field.clone())
-      .reduce((acc: Fields, field) => {
-        const lastRow = acc[acc.length - 1];
-        (lastRow.length < 8) ? lastRow.push(field) : acc.push([field]);
-        return acc;
-      }, <Fields>[[]]);
+      .map((field) => field.clone());
     return new Board(fields);
   }
 
   public setAt(coordinates: Coordinates, piece: Piece = null): Board {
     const clone = this.clone();
-    const {col, row} = coordinates;
-    clone._fields[row][col] = new Field(Coordinates.from(col, row), piece);
+    const { col, row } = coordinates;
+    clone._fields[coordinates.index] = new Field(Coordinates.from(col, row), piece);
     return clone;
   }
 
   public toString(): string {
     let str = '';
-    for (const row of this._fields) {
-      for (const field of row) {
-        str += field.toString();
-      }
-      str += '\n';
-    }
+    this.fields.forEach((field, index) => {
+      const ending = ((index + 1) % 8) === 0 ? '\n' : '';
+      str += `${field}${ending}`;
+    });
     return str;
   }
 
@@ -115,7 +108,6 @@ export default class Board {
 
   public fieldsByColor(color: Color): Field[] {
     return this.fields
-      .reduce((acc, row) => [...acc, ...row], [])
       .filter(field => !field.isEmpty && field.piece.color === color);
   }
 
