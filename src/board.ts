@@ -1,3 +1,4 @@
+import Move from './move';
 import Field from './field';
 import { Coordinates } from './coordinates';
 import { Pawn, Rook, Knight, Bishop, Queen, King, Color, Piece } from './pieces/index';
@@ -5,9 +6,9 @@ import { Pawn, Rook, Knight, Bishop, Queen, King, Color, Piece } from './pieces/
 export type Fields = Field[][];
 
 export default class Board {
-  constructor(private _fields: Fields) { }
+  constructor(private _fields: Fields, private _color: Color = Color.white) { }
 
-  get fields() {
+  public get fields() {
     return this._fields;
   }
 
@@ -75,11 +76,11 @@ export default class Board {
 
   public at(coordinates: Coordinates): Field {
     const {col, row} = coordinates;
-    return this._fields[row][col];
+    return this.fields[row][col];
   }
 
   public clone(): Board {
-    const fields = this._fields
+    const fields = this.fields
       .reduce((acc, row) => [...acc, ...row], [])
       .map((field) => field.clone())
       .reduce((acc: Fields, field) => {
@@ -106,5 +107,19 @@ export default class Board {
       str += '\n';
     }
     return str;
+  }
+
+  public get gameOver(): boolean {
+    return false;
+  }
+
+  public fieldsByColor(color: Color): Field[] {
+    return this.fields
+      .reduce((acc, row) => [...acc, ...row], [])
+      .filter(field => !field.isEmpty && field.piece.color === color);
+  }
+
+  public possibleMoves(): Move[] {
+    return [];
   }
 }
