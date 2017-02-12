@@ -11,16 +11,16 @@ export default class Knight extends Piece implements IPiece {
     return new Knight(this.color);
   }
 
-  public possibleMoves(coordinates: Coordinates, board: Board) {
+  public possibleMoves(coord: Coordinates, board: Board) {
     const moves = [
-      coordinates.up().upleft(),
-      coordinates.up().upright(),
-      coordinates.right().upright(),
-      coordinates.right().downright(),
-      coordinates.down().downright(),
-      coordinates.down().downleft(),
-      coordinates.left().downleft(),
-      coordinates.left().upleft(),
+      coord.up() && coord.up().upleft(),
+      coord.up() && coord.up().upright(),
+      coord.right() && coord.right().upright(),
+      coord.right() && coord.right().downright(),
+      coord.down() && coord.down().downright(),
+      coord.down() && coord.down().downleft(),
+      coord.left() && coord.left().downleft(),
+      coord.left() && coord.left().upleft(),
     ];
 
     return moves.filter(coord => {

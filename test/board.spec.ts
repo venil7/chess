@@ -1,10 +1,11 @@
 /// <reference path="../typings/index.d.ts" />
 import Board from '../src/board';
 import Field from '../src/field';
+import Move from '../src/move';
 import { Coordinates } from '../src/coordinates';
 import { Rook, Pawn, Color } from '../src/pieces/index';
 import * as chai from 'chai';
-const {assert, expect} = chai;
+const { assert, expect } = chai;
 
 describe('Chess board', () => {
   it('prints correctlty, when new', () => {
@@ -44,6 +45,27 @@ describe('Chess board', () => {
     const clone = board.setAt(Coordinates.from(2, 2), new Rook(Color.white));
     expect(board.at(Coordinates.from(2, 2)).piece).to.eql(null);
     expect(clone.at(Coordinates.from(2, 2)).piece).to.eql(new Rook(Color.white));
+  });
+
+  it('calculates current possible moves for Whites', () => {
+    const board = Board.newGame();
+    const possibleMoves = board.possibleMoves();
+    expect(possibleMoves).to.deep.include.members([
+      //pawns
+      new Move(Coordinates.from(0, 6), Coordinates.from(0, 5)),
+      new Move(Coordinates.from(1, 6), Coordinates.from(1, 5)),
+      new Move(Coordinates.from(2, 6), Coordinates.from(2, 5)),
+      new Move(Coordinates.from(3, 6), Coordinates.from(3, 5)),
+      new Move(Coordinates.from(4, 6), Coordinates.from(4, 5)),
+      new Move(Coordinates.from(5, 6), Coordinates.from(5, 5)),
+      new Move(Coordinates.from(6, 6), Coordinates.from(6, 5)),
+      new Move(Coordinates.from(7, 6), Coordinates.from(7, 5)),
+      //knights
+      new Move(Coordinates.from(1,7), Coordinates.from(0, 5)),
+      new Move(Coordinates.from(1,7), Coordinates.from(2, 5)),
+      new Move(Coordinates.from(6,7), Coordinates.from(5, 5)),
+      new Move(Coordinates.from(6,7), Coordinates.from(7, 5)),
+    ]);
   })
 
 });

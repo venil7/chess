@@ -1,6 +1,9 @@
 import { IPiece } from './pieces/index';
 import { Coordinates } from './coordinates';
 import Board from './board';
+import Move from './move';
+
+export type Fields = Field[];
 
 export default class Field {
   constructor(
@@ -31,13 +34,11 @@ export default class Field {
     return `[${cell}(${col},${row})]`;
   }
 
-  possibleMoves(board: Board): Coordinates[] {
+  possibleMoves(board: Board): Move[] {
     return this.isEmpty
       ? []
-      : this._piece.possibleMoves(this._coordinates, board);
-  }
-
-  static empty(coordinates: Coordinates): Field {
-    return new Field(coordinates);
+      : this._piece
+        .possibleMoves(this._coordinates, board)
+        .map(coordinate => new Move(this._coordinates, coordinate));
   }
 }

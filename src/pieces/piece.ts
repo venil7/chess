@@ -40,7 +40,7 @@ export abstract class Piece implements IPiece {
   }
 
   protected possiblePathMoves(
-    path: IterableIterator<Coordinates>,
+    path: IterableIterator<Coordinates>|Coordinates[],
     board: Board,
     includeStrikes: boolean = true): Coordinates[] {
     const moves = []

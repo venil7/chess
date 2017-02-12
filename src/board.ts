@@ -1,9 +1,7 @@
-import Move from './move';
-import Field from './field';
+import Move, { Moves } from './move';
+import Field, { Fields } from './field';
 import { Coordinates } from './coordinates';
 import { Pawn, Rook, Knight, Bishop, Queen, King, Color, Piece } from './pieces/index';
-
-export type Fields = Field[];
 
 export default class Board {
   constructor(
@@ -14,10 +12,13 @@ export default class Board {
     return this._fields;
   }
 
+  public get color() {
+    return this._color;
+  }
+
   private static *singleRowGenerator() {
     const WIDTH = 8;
-    for (let col = 0; col < WIDTH; col++)
-      yield col;
+    for (let col = 0; col < WIDTH; col++) yield col;
   }
 
   private static *coordGenerator(row: number) {
@@ -111,7 +112,9 @@ export default class Board {
       .filter(field => !field.isEmpty && field.piece.color === color);
   }
 
-  public possibleMoves(): Move[] {
-    return [];
+  public possibleMoves(): Moves {
+    return this.fieldsByColor(this.color)
+      .map((field) => field.possibleMoves(this))
+      .reduce((acc, moves) => acc.concat(moves), <Moves>[]);
   }
 }
