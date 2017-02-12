@@ -1,4 +1,4 @@
-export { Piece, IPiece, Color } from './piece';
+export { Piece, Color, Colors } from './piece';
 export { default as Pawn } from './pawn';
 export { default as Rook } from './rook';
 export { default as Knight } from './knight';

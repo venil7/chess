@@ -1,7 +1,10 @@
 import Move, { Moves } from './move';
 import Field, { Fields } from './field';
 import { Coordinates } from './coordinates';
-import { Pawn, Rook, Knight, Bishop, Queen, King, Color, Piece } from './pieces/index';
+import {
+  Pawn, Rook, Knight, Bishop,
+  Queen, King, Color, Colors, Piece
+} from './pieces/index';
 
 export default class Board {
   constructor(
@@ -87,10 +90,23 @@ export default class Board {
     return new Board(fields);
   }
 
-  public setAt(coordinates: Coordinates, piece: Piece = null): Board {
+  public setAt({ row, col, index }: Coordinates, piece: Piece): Board {
     const clone = this.clone();
-    const { col, row } = coordinates;
-    clone._fields[coordinates.index] = new Field(Coordinates.from(col, row), piece);
+    clone._fields[index] = new Field(Coordinates.from(col, row), piece);
+    return clone;
+  }
+
+  public emptyAt(coordinates: Coordinates): Board {
+    return this.setAt(coordinates, null);
+  }
+
+  public makeMove({ from, to }: Move): Board {
+    const { isEmpty, piece } = this.at(from);
+    if (isEmpty) throw new Error('can`t make move from empty field');
+    const clone = this
+      .emptyAt(from)
+      .setAt(to, piece.clone());
+    clone._color = Colors.opposite(piece.color);
     return clone;
   }
 

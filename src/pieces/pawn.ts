@@ -1,8 +1,8 @@
-import { Piece, IPiece, Color } from './piece';
+import { Piece, Color } from './piece';
 import { Coordinates } from '../coordinates';
 import Board from '../board';
 
-export default class Pawn extends Piece implements IPiece {
+export default class Pawn extends Piece {
   get weight(): number { return 1; }
 
   toString(): string { return this.color == Color.white ? '♙' : '♟' };
@@ -22,7 +22,7 @@ export default class Pawn extends Piece implements IPiece {
     return [...freeMoves, ...strikes];
   }
 
-  clone(): IPiece {
+  clone(): Piece {
     return new Pawn(this.color);
   }
 }

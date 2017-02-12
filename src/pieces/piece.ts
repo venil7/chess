@@ -6,16 +6,16 @@ export enum Color {
   black
 }
 
-export interface IPiece {
-  color: Color;
-  weight: number;
-  possibleMoves(coordinates: Coordinates, board: Board): Coordinates[];
-  toString(): string;
-  pristine: boolean;
-  clone(): IPiece;
+export class Colors {
+  public static opposite(color: Color) {
+    const { white, black } = Color;
+    return (color === white)
+      ? black
+      : white;
+  }
 }
 
-export abstract class Piece implements IPiece {
+export abstract class Piece {
   readonly weight: number;
   constructor(public color: Color) { }
 
@@ -35,7 +35,7 @@ export abstract class Piece implements IPiece {
     return true;
   }
 
-  clone(): IPiece {
+  clone(): Piece {
     throw new Error('not implemented in abstract class');
   }
 

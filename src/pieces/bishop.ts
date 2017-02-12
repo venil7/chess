@@ -1,13 +1,13 @@
-import { Piece, IPiece, Color } from './piece';
+import { Piece, Color } from './piece';
 import { Coordinates } from '../coordinates';
 import Board from '../board';
 
-export default class Bishop extends Piece implements IPiece {
+export default class Bishop extends Piece {
   get weight(): number { return 2; }
 
   toString(): string { return this.color == Color.white ? '♗' : '♝' };
 
-  clone(): IPiece {
+  clone(): Piece {
     return new Bishop(this.color);
   }
 

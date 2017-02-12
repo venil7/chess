@@ -68,4 +68,16 @@ describe('Chess board', () => {
     ]);
   })
 
+  it('Moves piece properly from field to field, changes active color', () => {
+    const from = Coordinates.from(3, 3);
+    const to = Coordinates.from(3, 2);
+    const piece = new Pawn(Color.white);
+    const board = Board.emptyGame().setAt(from, piece);
+    const move = new Move(from, to);
+    const newBoard = board.makeMove(move);
+    expect(newBoard.at(from).isEmpty).to.eql(true);
+    expect(newBoard.at(to).piece).to.eql(piece);
+    expect(newBoard.color).to.eql(Color.black);
+  })
+
 });

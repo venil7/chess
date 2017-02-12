@@ -1,13 +1,13 @@
-import { Piece, IPiece, Color } from './piece';
+import { Piece, Color } from './piece';
 import { Coordinates } from '../coordinates';
 import Board from '../board';
 
-export default class King extends Piece implements IPiece {
+export default class King extends Piece {
   get weight(): number { return 5; }
 
   toString(): string { return this.color == Color.white ? '♔' : '♚' };
 
-  clone(): IPiece {
+  clone(): Piece {
     return new King(this.color);
   }
 
