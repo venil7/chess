@@ -3,7 +3,7 @@ import { Coordinates } from '../coordinates';
 import Board from '../board';
 
 export default class Rook extends Piece {
-  get weight(): number { return 3; }
+  get weight(): number { return 2; }
 
   toString(): string { return this.color == Color.white ? '♖' : '♜' };
 

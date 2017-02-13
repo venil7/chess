@@ -3,7 +3,7 @@ import { Coordinates } from '../coordinates';
 import Board from '../board';
 
 export default class King extends Piece {
-  get weight(): number { return 5; }
+  get weight(): number { return 8; }
 
   toString(): string { return this.color == Color.white ? '♔' : '♚' };
 

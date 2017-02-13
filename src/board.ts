@@ -6,6 +6,23 @@ import {
   Queen, King, Color, Colors, Piece
 } from './pieces/index';
 
+export enum Player {
+  None,
+  CPU,
+  Human
+}
+
+export class Players {
+  public static opposite(player: Player) {
+    const { CPU, Human, None } = Player;
+    switch (player) {
+      case CPU: return Human;
+      case Human: return CPU;
+      default: return None;
+    }
+  }
+}
+
 export default class Board {
   constructor(
     private _fields: Fields,
@@ -121,6 +138,10 @@ export default class Board {
 
   public get gameOver(): boolean {
     return false;
+  }
+
+  public get winner(): Player {
+    return Player.None;
   }
 
   public fieldsByColor(color: Color): Field[] {
