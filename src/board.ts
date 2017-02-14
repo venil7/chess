@@ -12,14 +12,12 @@ export enum Player {
   Human
 }
 
-export class Players {
-  public static opposite(player: Player) {
-    const { CPU, Human, None } = Player;
-    switch (player) {
-      case CPU: return Human;
-      case Human: return CPU;
-      default: return None;
-    }
+export const opponent = (player: Player) => {
+  const { CPU, Human, None } = Player;
+  switch (player) {
+    case CPU: return Human;
+    case Human: return CPU;
+    default: return None;
   }
 }
 

@@ -1,5 +1,5 @@
 import Move, { EvaluatedMove } from './move';
-import Board, { Player } from './board';
+import Board, { Player, opponent } from './board';
 import { Color } from './pieces/index';
 import Field from './field';
 
@@ -26,14 +26,10 @@ class Game {
       return EvaluatedMove.from(move, this.score(board, depth));
     }
 
-    // const player = (board.color === Color.white)
-    //   ? Player.Human
-    //   : Player.CPU;
-
     const [firstMove] = board.possibleMoves()
       .map((move) => {
         const newBoard = board.makeMove(move);
-        return this.minimax(newBoard, move, (depth + 1));
+        return this.minimax(newBoard, opponent(player), move, (depth + 1));
       })
       .sort(EvaluatedMove.sortFunc(player));
 
