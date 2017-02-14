@@ -3,20 +3,29 @@ import Field, { Fields } from './field';
 import { Coordinates } from './coordinates';
 import {
   Pawn, Rook, Knight, Bishop,
-  Queen, King, Color, Colors, Piece
+  Queen, King, Piece
 } from './pieces/index';
 
+export enum Player {
+  None,
+  CPU,
+  Human
+}
+
+export const opponent = (player: Player) => {
+  const { CPU, Human, None } = Player;
+  switch (player) {
+    case CPU: return Human;
+    case Human: return CPU;
+    default: return None;
+  }
+}
+
 export default class Board {
-  constructor(
-    private _fields: Fields,
-    private _color: Color = Color.white) { }
+  constructor(private _fields: Fields) { }
 
   public get fields() {
     return this._fields;
-  }
-
-  public get color() {
-    return this._color;
   }
 
   private static *singleRowGenerator() {
@@ -29,21 +38,21 @@ export default class Board {
       yield Coordinates.from(col, row);
   }
 
-  static piecesRow(coordIterator: IterableIterator<Coordinates>, color: Color): Field[] {
+  static piecesRow(coordIterator: IterableIterator<Coordinates>, player: Player): Field[] {
     return [
-      new Field(coordIterator.next().value, new Rook(color)),
-      new Field(coordIterator.next().value, new Knight(color)),
-      new Field(coordIterator.next().value, new Bishop(color)),
-      new Field(coordIterator.next().value, new Queen(color)),
-      new Field(coordIterator.next().value, new King(color)),
-      new Field(coordIterator.next().value, new Bishop(color)),
-      new Field(coordIterator.next().value, new Knight(color)),
-      new Field(coordIterator.next().value, new Rook(color))
+      new Field(coordIterator.next().value, new Rook(player)),
+      new Field(coordIterator.next().value, new Knight(player)),
+      new Field(coordIterator.next().value, new Bishop(player)),
+      new Field(coordIterator.next().value, new Queen(player)),
+      new Field(coordIterator.next().value, new King(player)),
+      new Field(coordIterator.next().value, new Bishop(player)),
+      new Field(coordIterator.next().value, new Knight(player)),
+      new Field(coordIterator.next().value, new Rook(player))
     ];
   };
 
-  static pawnRow(coordIterator: IterableIterator<Coordinates>, color: Color): Field[] {
-    return [...coordIterator].map((coordinates) => new Field(coordinates, new Pawn(color)));
+  static pawnRow(coordIterator: IterableIterator<Coordinates>, player: Player): Field[] {
+    return [...coordIterator].map((coordinates) => new Field(coordinates, new Pawn(player)));
   };
 
   private static emptyRow(coordIterator: IterableIterator<Coordinates>): Field[] {
@@ -67,14 +76,14 @@ export default class Board {
 
   static newGame(): Board {
     const fields: Fields = [
-      ...Board.piecesRow(Board.coordGenerator(0), Color.black),
-      ...Board.pawnRow(Board.coordGenerator(1), Color.black),
+      ...Board.piecesRow(Board.coordGenerator(0), Player.CPU),
+      ...Board.pawnRow(Board.coordGenerator(1), Player.CPU),
       ...Board.emptyRow(Board.coordGenerator(2)),
       ...Board.emptyRow(Board.coordGenerator(3)),
       ...Board.emptyRow(Board.coordGenerator(4)),
       ...Board.emptyRow(Board.coordGenerator(5)),
-      ...Board.pawnRow(Board.coordGenerator(6), Color.white),
-      ...Board.piecesRow(Board.coordGenerator(7), Color.white),
+      ...Board.pawnRow(Board.coordGenerator(6), Player.Human),
+      ...Board.piecesRow(Board.coordGenerator(7), Player.Human),
     ];
 
     return new Board(fields);
@@ -106,7 +115,6 @@ export default class Board {
     const clone = this
       .emptyAt(from)
       .setAt(to, piece.clone());
-    clone._color = Colors.opposite(piece.color);
     return clone;
   }
 
@@ -123,13 +131,17 @@ export default class Board {
     return false;
   }
 
-  public fieldsByColor(color: Color): Field[] {
-    return this.fields
-      .filter(field => !field.isEmpty && field.piece.color === color);
+  public get winner(): Player {
+    return Player.None;
   }
 
-  public possibleMoves(): Moves {
-    return this.fieldsByColor(this.color)
+  public fieldsByPlayer(player: Player): Field[] {
+    return this.fields
+      .filter(field => !field.isEmpty && field.piece.player === player);
+  }
+
+  public possibleMoves(player: Player): Moves {
+    return this.fieldsByPlayer(player)
       .map((field) => field.possibleMoves(this))
       .reduce((acc, moves) => acc.concat(moves), <Moves>[]);
   }

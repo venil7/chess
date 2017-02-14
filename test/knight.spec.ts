@@ -1,8 +1,8 @@
 /// <reference path="../typings/index.d.ts" />
-import Board from '../src/board';
+import Board, { Player } from '../src/board';
 import Field from '../src/field';
 import { Coordinates } from '../src/coordinates';
-import { Knight, Pawn, Color } from '../src/pieces/index';
+import { Knight, Pawn } from '../src/pieces/index';
 import * as chai from 'chai';
 const { assert, expect } = chai;
 
@@ -10,9 +10,9 @@ describe('Knight', () => {
   it('determines its possible move correctly, (obstacles, strikes)', () => {
     const coords = Coordinates.from(3, 3);
     const board = Board.emptyGame()
-      .setAt(coords, new Knight(Color.white))
-      .setAt(coords.up().upleft(), new Pawn(Color.black))
-      .setAt(coords.down().downright(), new Pawn(Color.white))
+      .setAt(coords, new Knight(Player.Human))
+      .setAt(coords.up().upleft(), new Pawn(Player.CPU))
+      .setAt(coords.down().downright(), new Pawn(Player.Human))
     const knight = board.at(coords).piece;
 
     const moves = knight.possibleMoves(coords, board);

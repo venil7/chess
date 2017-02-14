@@ -1,14 +1,14 @@
-import { Piece, Color } from './piece';
+import { Piece } from './piece';
 import { Coordinates } from '../coordinates';
-import Board from '../board';
+import Board, { Player } from '../board';
 
 export default class King extends Piece {
-  get weight(): number { return 5; }
+  get weight(): number { return 8; }
 
-  toString(): string { return this.color == Color.white ? '♔' : '♚' };
+  toString(): string { return this.player == Player.Human ? '♔' : '♚' };
 
   clone(): Piece {
-    return new King(this.color);
+    return new King(this.player);
   }
 
   public possibleMoves(coordinates: Coordinates, board: Board) {
@@ -22,7 +22,7 @@ export default class King extends Piece {
     return moves.filter(coord => {
       return (coord !== null)
         && (board.at(coord).isEmpty
-          || board.at(coord).piece.color !== this.color)
+          || board.at(coord).piece.player !== this.player)
     });
   }
 

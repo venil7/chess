@@ -1,8 +1,8 @@
 /// <reference path="../typings/index.d.ts" />
-import Board from '../src/board';
+import Board, { Player } from '../src/board';
 import Field from '../src/field';
 import { Coordinates } from '../src/coordinates';
-import { Rook, Color } from '../src/pieces/index';
+import { Rook } from '../src/pieces/index';
 import * as chai from 'chai';
 const { assert, expect } = chai;
 
@@ -10,7 +10,7 @@ describe('Rook', () => {
   it('determines its possible move correctly, (obstacles, strikes)', () => {
     const coords = Coordinates.from(3, 3);
     const board = Board.newGame()
-      .setAt(coords, new Rook(Color.white));
+      .setAt(coords, new Rook(Player.Human));
     const rook = board.at(coords).piece;
 
     const moves = rook.possibleMoves(coords, board);

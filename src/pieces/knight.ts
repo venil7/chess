@@ -1,14 +1,14 @@
-import { Piece, Color } from './piece';
+import { Piece } from './piece';
 import { Coordinates } from '../coordinates';
-import Board from '../board';
+import Board, { Player } from '../board';
 
 export default class Knight extends Piece {
   get weight(): number { return 3; }
 
-  toString(): string { return this.color == Color.white ? '♘' : '♞' };
+  toString(): string { return this.player == Player.Human ? '♘' : '♞' };
 
   clone(): Piece {
-    return new Knight(this.color);
+    return new Knight(this.player);
   }
 
   public possibleMoves(coord: Coordinates, board: Board) {
@@ -26,7 +26,7 @@ export default class Knight extends Piece {
     return moves.filter(coord => {
       return (coord !== null)
         && (board.at(coord).isEmpty
-          || board.at(coord).piece.color !== this.color)
+          || board.at(coord).piece.player !== this.player)
     });
   }
 

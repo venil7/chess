@@ -1,9 +1,9 @@
 /// <reference path="../typings/index.d.ts" />
-import Board from '../src/board';
+import Board, { Player } from '../src/board';
 import Field from '../src/field';
 import Move from '../src/move';
 import { Coordinates } from '../src/coordinates';
-import { Rook, Pawn, Color } from '../src/pieces/index';
+import { Rook, Pawn } from '../src/pieces/index';
 import * as chai from 'chai';
 const { assert, expect } = chai;
 
@@ -17,14 +17,14 @@ describe('Chess board', () => {
     const board = Board.newGame();
     const field = board.at(Coordinates.from(0, 0));
     expect(field.isEmpty).to.eql(false);
-    expect(field.piece).to.eql(new Rook(Color.black));
+    expect(field.piece).to.eql(new Rook(Player.CPU));
   });
 
   it('gets correct field [Pawn@1,6] by coordinates', () => {
     const board = Board.newGame();
     const field = board.at(Coordinates.from(0, 6));
     expect(field.isEmpty).to.eql(false);
-    expect(field.piece).to.eql(new Pawn(Color.white));
+    expect(field.piece).to.eql(new Pawn(Player.Human));
   });
 
   it('gets correct field [empty] by coordinates', () => {
@@ -42,14 +42,14 @@ describe('Chess board', () => {
 
   it('sets the piece correctly, in non mutative way', () => {
     const board = Board.emptyGame();
-    const clone = board.setAt(Coordinates.from(2, 2), new Rook(Color.white));
+    const clone = board.setAt(Coordinates.from(2, 2), new Rook(Player.Human));
     expect(board.at(Coordinates.from(2, 2)).piece).to.eql(null);
-    expect(clone.at(Coordinates.from(2, 2)).piece).to.eql(new Rook(Color.white));
+    expect(clone.at(Coordinates.from(2, 2)).piece).to.eql(new Rook(Player.Human));
   });
 
-  it('calculates current possible moves for Whites', () => {
+  it('calculates current possible moves for CPU', () => {
     const board = Board.newGame();
-    const possibleMoves = board.possibleMoves();
+    const possibleMoves = board.possibleMoves(Player.Human);
     expect(possibleMoves).to.deep.include.members([
       //pawns
       new Move(Coordinates.from(0, 6), Coordinates.from(0, 5)),
@@ -68,16 +68,15 @@ describe('Chess board', () => {
     ]);
   })
 
-  it('Moves piece properly from field to field, changes active color', () => {
+  it('Moves piece properly from field to field', () => {
     const from = Coordinates.from(3, 3);
     const to = Coordinates.from(3, 2);
-    const piece = new Pawn(Color.white);
+    const piece = new Pawn(Player.Human);
     const board = Board.emptyGame().setAt(from, piece);
     const move = new Move(from, to);
     const newBoard = board.makeMove(move);
     expect(newBoard.at(from).isEmpty).to.eql(true);
     expect(newBoard.at(to).piece).to.eql(piece);
-    expect(newBoard.color).to.eql(Color.black);
   })
 
 });

@@ -1,38 +1,12 @@
 import { Coordinates } from '../coordinates';
-import Board from '../board';
-
-export enum Color {
-  white,
-  black
-}
-
-export class Colors {
-  public static opposite(color: Color) {
-    const { white, black } = Color;
-    return (color === white)
-      ? black
-      : white;
-  }
-}
+import Board, { Player } from '../board';
 
 export abstract class Piece {
   readonly weight: number;
-  constructor(public color: Color) { }
+  constructor(public player: Player) { }
 
   possibleMoves(coordinates: Coordinates, board: Board): Coordinates[] {
     return [];
-  }
-
-  get white(): boolean {
-    return this.color === Color.white
-  }
-
-  get black(): boolean {
-    return !this.white;
-  }
-
-  get pristine(): boolean {
-    return true;
   }
 
   clone(): Piece {
@@ -48,7 +22,7 @@ export abstract class Piece {
       const field = board.at(coord);
       if (field.isEmpty) {
         moves.push(coord);
-      } else if (field.piece.color !== this.color) {
+      } else if (field.piece.player !== this.player) {
         includeStrikes && moves.push(coord);
         break;
       }
