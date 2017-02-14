@@ -10,8 +10,8 @@ class Game {
   public static score(board: Board, depth: number): number {
     const extractWeight = (field: Field) => field.piece.weight;
     const sum = (acc, i) => acc + i;
-    const blacks = board.fieldsByColor(Color.black).map(extractWeight).reduce(sum);
-    const whites = board.fieldsByColor(Color.white).map(extractWeight).reduce(sum);
+    const blacks = board.fieldsByPlayer(Color.black).map(extractWeight).reduce(sum);
+    const whites = board.fieldsByPlayer(Color.white).map(extractWeight).reduce(sum);
     return (blacks - whites) - depth;
   }
 

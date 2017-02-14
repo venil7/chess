@@ -1,15 +1,15 @@
 /// <reference path="../typings/index.d.ts" />
-import Board from '../src/board';
+import Board, { Player } from '../src/board';
 import Field from '../src/field';
 import { Coordinates } from '../src/coordinates';
-import { Bishop, Color } from '../src/pieces/index';
+import { Bishop } from '../src/pieces/index';
 import * as chai from 'chai';
 const { assert, expect } = chai;
 
 describe('Bishop', () => {
   it('determines its possible move correctly, (obstacles, strikes)', () => {
     const coords = Coordinates.from(3, 3);
-    const board = Board.newGame().setAt(coords, new Bishop(Color.white));
+    const board = Board.newGame().setAt(coords, new Bishop(Player.Human));
     const bishop = board.at(coords).piece;
 
     const moves = bishop.possibleMoves(coords, board);

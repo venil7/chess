@@ -1,15 +1,15 @@
 /// <reference path="../typings/index.d.ts" />
-import Board from '../src/board';
+import Board, { Player } from '../src/board';
 import Field from '../src/field';
 import { Coordinates } from '../src/coordinates';
-import { Queen, Color } from '../src/pieces/index';
+import { Queen } from '../src/pieces/index';
 import * as chai from 'chai';
 const { assert, expect } = chai;
 
 describe('Queen', () => {
   it('determines its possible move correctly, (obstacles, strikes)', () => {
     const coords = Coordinates.from(3, 3);
-    const board = Board.newGame().setAt(coords, new Queen(Color.white));
+    const board = Board.newGame().setAt(coords, new Queen(Player.Human));
     const queen = board.at(coords).piece;
 
     const moves = queen.possibleMoves(coords, board);

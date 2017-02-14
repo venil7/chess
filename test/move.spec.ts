@@ -16,12 +16,12 @@ const moves = [
 ];
 
 describe('EvaluatedMove', () => {
-  it('Sorts properly for CPU', () => {
+  it('Sorts properly for Human', () => {
     const sorted = moves.sort(EvaluatedMove.sortFunc(Player.Human));
     expect(sorted.map(({ score }) => score)).to.eql([1, 2, 3, 4]);
   });
 
-  it('Sorts properly for Human', () => {
+  it('Sorts properly for CPU', () => {
     const sorted = moves.sort(EvaluatedMove.sortFunc(Player.CPU));
     expect(sorted.map(({ score }) => score)).to.eql([4, 3, 2, 1]);
   });

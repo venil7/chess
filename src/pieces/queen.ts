@@ -1,14 +1,14 @@
-import { Piece, Color } from './piece';
+import { Piece } from './piece';
 import { Coordinates } from '../coordinates';
-import Board from '../board';
+import Board, { Player } from '../board';
 
 export default class Queen extends Piece {
   get weight(): number { return 5; }
 
-  toString(): string { return this.color == Color.white ? '♕' : '♛' };
+  toString(): string { return this.player == Player.Human ? '♕' : '♛' };
 
   clone(): Piece {
-    return new Queen(this.color);
+    return new Queen(this.player);
   }
 
   public possibleMoves(coordinates: Coordinates, board: Board) {

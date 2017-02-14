@@ -1,14 +1,14 @@
-import { Piece, Color } from './piece';
+import { Piece } from './piece';
 import { Coordinates } from '../coordinates';
-import Board from '../board';
+import Board, { Player } from '../board';
 
 export default class Rook extends Piece {
   get weight(): number { return 2; }
 
-  toString(): string { return this.color == Color.white ? '♖' : '♜' };
+  toString(): string { return this.player == Player.Human ? '♖' : '♜' };
 
   clone(): Piece {
-    return new Rook(this.color);
+    return new Rook(this.player);
   }
 
   public possibleMoves(coordinates: Coordinates, board: Board) {
