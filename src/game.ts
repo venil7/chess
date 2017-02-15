@@ -2,7 +2,7 @@ import Move, { EvaluatedMove, sortFunc } from './move';
 import Board, { Player, opponent } from './board';
 import Field from './field';
 
-const MAX_DEPTH = 4;
+const MAX_DEPTH = 3;
 const MAX_SCORE = 35;
 
 export default class Game {
@@ -15,7 +15,12 @@ export default class Game {
     return (playerScore - opponentScore) - depth;
   }
 
-  public static minimax(board: Board, player: Player, move?: Move, depth: number = 0): EvaluatedMove {
+  public static cpu(board: Board) {
+    const evaluatedMove = this.minimax(board, Player.CPU)
+    return board.makeMove(evaluatedMove);
+  }
+
+  public static minimax(board: Board, player: Player = Player.CPU, move?: Move, depth: number = 0): EvaluatedMove {
     const { gameOver, winner } = board;
 
     if (gameOver) {
@@ -40,8 +45,4 @@ export default class Game {
       : EvaluatedMove.from(move, this.score(board, player, depth));
   }
 
-  public static cpu(board: Board) {
-    const evaluatedMove = this.minimax(board, Player.CPU)
-    return board.makeMove(evaluatedMove);
-  }
 }

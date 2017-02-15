@@ -19,6 +19,6 @@ describe('Bishop', () => {
       Coordinates.from(2, 4), Coordinates.from(1, 5), //dowwn-left
       Coordinates.from(4, 4), Coordinates.from(5, 5), //down-right
     ]);
-    expect(moves.length).to.equal(8);
+    expect(moves.length).to.eql(8);
   });
 });

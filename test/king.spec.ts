@@ -26,6 +26,6 @@ describe('King', () => {
       Coordinates.from(2, 3), //left
       Coordinates.from(2, 2), //up-left
     ]);
-    expect(moves.length).to.equal(7);
+    expect(moves.length).to.eql(7);
   });
 });

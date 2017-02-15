@@ -22,6 +22,6 @@ describe('Knight', () => {
       Coordinates.from(2, 5),
       Coordinates.from(1, 4), Coordinates.from(1, 2),
     ]);
-    expect(moves.length).to.equal(7);
+    expect(moves.length).to.eql(7);
   });
 });

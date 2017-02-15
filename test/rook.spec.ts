@@ -22,6 +22,6 @@ describe('Rook', () => {
       Coordinates.from(0, 3), Coordinates.from(1, 3), //left
       Coordinates.from(2, 3) //left
     ]);
-    expect(moves.length).to.equal(11);
+    expect(moves.length).to.eql(11);
   });
 });

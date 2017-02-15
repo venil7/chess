@@ -25,6 +25,6 @@ describe('Queen', () => {
       Coordinates.from(2, 3), //left
       Coordinates.from(2, 2), Coordinates.from(1, 1), //up-left, strike
     ]);
-    expect(moves.length).to.equal(19);
+    expect(moves.length).to.eql(19);
   });
 });
