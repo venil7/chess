@@ -1,5 +1,5 @@
 /// <reference path="../typings/index.d.ts" />
-import { EvaluatedMove } from '../src/move';
+import { EvaluatedMove, sortFunc } from '../src/move';
 import { Coordinates } from '../src/coordinates';
 import { Player } from '../src/board';
 import * as chai from 'chai';
@@ -17,12 +17,12 @@ const moves = [
 
 describe('EvaluatedMove', () => {
   it('Sorts properly for Human', () => {
-    const sorted = moves.sort(EvaluatedMove.sortFunc(Player.Human));
+    const sorted = moves.sort(sortFunc(Player.Human));
     expect(sorted.map(({ score }) => score)).to.eql([1, 2, 3, 4]);
   });
 
   it('Sorts properly for CPU', () => {
-    const sorted = moves.sort(EvaluatedMove.sortFunc(Player.CPU));
+    const sorted = moves.sort(sortFunc(Player.CPU));
     expect(sorted.map(({ score }) => score)).to.eql([4, 3, 2, 1]);
   });
 });

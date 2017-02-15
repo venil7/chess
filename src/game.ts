@@ -1,4 +1,4 @@
-import Move, { EvaluatedMove } from './move';
+import Move, { EvaluatedMove, sortFunc } from './move';
 import Board, { Player, opponent } from './board';
 import Field from './field';
 
@@ -6,6 +6,7 @@ const MAX_DEPTH = 4;
 const MAX_SCORE = 35;
 
 export default class Game {
+
   public static score(board: Board, player: Player, depth: number): number {
     const extractWeight = (field: Field) => field.piece.weight;
     const sum = (acc, i) => acc + i;
@@ -16,7 +17,6 @@ export default class Game {
 
   public static minimax(board: Board, player: Player, move?: Move, depth: number = 0): EvaluatedMove {
     const { gameOver, winner } = board;
-    const opposingPlayer = opponent(player);
 
     if (gameOver) {
       if (winner === Player.CPU) return EvaluatedMove.from(move, MAX_SCORE - depth);
@@ -27,14 +27,17 @@ export default class Game {
       return EvaluatedMove.from(move, this.score(board, player, depth));
     }
 
+    const opposingPlayer = opponent(player);
     const [firstMove] = board.possibleMoves(player)
       .map((move) => {
         const newBoard = board.makeMove(move);
         return this.minimax(newBoard, opposingPlayer, move, (depth + 1));
       })
-      .sort(EvaluatedMove.sortFunc(player));
+      .sort(sortFunc(player));
 
-    return firstMove;
+    return firstMove
+      ? firstMove
+      : EvaluatedMove.from(move, this.score(board, player, depth));
   }
 
   public static cpu(board: Board) {

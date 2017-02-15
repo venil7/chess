@@ -3,7 +3,7 @@ import Board, { Player } from '../src/board';
 import Field from '../src/field';
 import Move from '../src/move';
 import { Coordinates } from '../src/coordinates';
-import { Rook, Pawn } from '../src/pieces/index';
+import { Rook, Pawn, King } from '../src/pieces/index';
 import * as chai from 'chai';
 const { assert, expect } = chai;
 
@@ -61,12 +61,12 @@ describe('Chess board', () => {
       new Move(Coordinates.from(6, 6), Coordinates.from(6, 5)),
       new Move(Coordinates.from(7, 6), Coordinates.from(7, 5)),
       //knights
-      new Move(Coordinates.from(1,7), Coordinates.from(0, 5)),
-      new Move(Coordinates.from(1,7), Coordinates.from(2, 5)),
-      new Move(Coordinates.from(6,7), Coordinates.from(5, 5)),
-      new Move(Coordinates.from(6,7), Coordinates.from(7, 5)),
+      new Move(Coordinates.from(1, 7), Coordinates.from(0, 5)),
+      new Move(Coordinates.from(1, 7), Coordinates.from(2, 5)),
+      new Move(Coordinates.from(6, 7), Coordinates.from(5, 5)),
+      new Move(Coordinates.from(6, 7), Coordinates.from(7, 5)),
     ]);
-  })
+  });
 
   it('Moves piece properly from field to field', () => {
     const from = Coordinates.from(3, 3);
@@ -77,6 +77,16 @@ describe('Chess board', () => {
     const newBoard = board.makeMove(move);
     expect(newBoard.at(from).isEmpty).to.eql(true);
     expect(newBoard.at(to).piece).to.eql(piece);
-  })
+  });
+
+  it('Determines game is not over', () => {
+    const board = Board.newGame();
+    expect(board.gameOver).to.eql(false);
+  });
+
+  it('Determines game is over', () => {
+    const board = Board.emptyGame().setAt(Coordinates.from(1, 1), new King(Player.CPU));
+    expect(board.gameOver).to.eql(true);
+  });
 
 });

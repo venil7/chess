@@ -10,6 +10,14 @@ export default class Move {
   ) { }
 }
 
+export const sortFunc = (player: Player) => {
+  return (em1: EvaluatedMove, em2: EvaluatedMove) => {
+    return player === Player.CPU
+      ? em2.score - em1.score
+      : em1.score - em2.score;
+  };
+}
+
 export class EvaluatedMove extends Move {
   constructor(
     from: Coordinates,
@@ -22,11 +30,4 @@ export class EvaluatedMove extends Move {
     return new EvaluatedMove(move.from, move.to, score)
   }
 
-  static sortFunc(player: Player): (em1: EvaluatedMove, em2: EvaluatedMove) => number {
-    return (em1, em2) => {
-      return player === Player.CPU
-        ? em2.score - em1.score
-        : em1.score - em2.score;
-    };
-  }
 }

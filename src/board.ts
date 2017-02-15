@@ -128,11 +128,19 @@ export default class Board {
   }
 
   public get gameOver(): boolean {
-    return false;
+    return this.winner !== Player.None;
   }
 
   public get winner(): Player {
-    return Player.None;
+    const [king1, king2] = [
+      ...this.fieldsByPlayer(Player.CPU),
+      ...this.fieldsByPlayer(Player.Human)
+    ].filter(({ piece }) => piece instanceof King)
+      .map(({ piece }) => piece);
+
+    return (king1 && king2)
+      ? Player.None
+      : king1.player;
   }
 
   public fieldsByPlayer(player: Player): Field[] {
