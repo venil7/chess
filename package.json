@@ -2,11 +2,12 @@
   "name": "chess",
   "version": "1.0.0",
   "description": "",
-  "main": "./src/index.ts",
+  "main": "./dist/chess.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha --require ./node_modules/ts-node/register test/**/*.spec.ts",
     "start": "./node_modules/.bin/ts-node ./src/index.ts",
-    "dev": "node fuse.js"
+    "dev": "node fuse.js devserver",
+    "build": "node fuse.js bundle"
   },
   "author": "",
   "license": "ISC",
