@@ -21,4 +21,14 @@ describe('Bishop', () => {
     ]);
     expect(moves.length).to.eql(8);
   });
+
+  it('determines no possible move, from init position', () => {
+    const board = Board.newGame()
+    const coords = Coordinates.from(5, 0);
+    const bishop = board.at(coords).piece;
+
+    const moves = bishop.possibleMoves(coords, board);
+    expect(moves.length).to.eql(0);
+  });
+
 });

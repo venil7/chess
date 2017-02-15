@@ -24,4 +24,17 @@ describe('Knight', () => {
     ]);
     expect(moves.length).to.eql(7);
   });
+
+  it('determines 2 possible moves, from init position', () => {
+    const board = Board.newGame()
+    const coords = Coordinates.from(1, 0);
+    const knight = board.at(coords).piece;
+
+    const moves = knight.possibleMoves(coords, board);
+    expect(knight instanceof Knight).to.eql(true);
+    expect(moves).to.deep.include.members([
+      Coordinates.from(0, 2), Coordinates.from(2, 2),
+    ]);
+    expect(moves.length).to.eql(2);
+  });
 });

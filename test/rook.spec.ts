@@ -24,4 +24,14 @@ describe('Rook', () => {
     ]);
     expect(moves.length).to.eql(11);
   });
+
+  it('determines no possible move, from init position', () => {
+    const board = Board.newGame()
+    const coords = Coordinates.from(0, 0);
+    const rook = board.at(coords).piece;
+
+    const moves = rook.possibleMoves(coords, board);
+    expect(moves.length).to.eql(0);
+  });
+
 });

@@ -28,4 +28,13 @@ describe('King', () => {
     ]);
     expect(moves.length).to.eql(7);
   });
+
+  it('determines no possible move, from init position', () => {
+    const board = Board.newGame()
+    const coords = Coordinates.from(4, 0);
+    const rook = board.at(coords).piece;
+
+    const moves = rook.possibleMoves(coords, board);
+    expect(moves.length).to.eql(0);
+  });
 });

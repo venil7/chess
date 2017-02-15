@@ -25,7 +25,7 @@ export abstract class Piece {
       } else if (field.piece.player !== this.player) {
         includeStrikes && moves.push(coord);
         break;
-      }
+      } else break;
     }
     return moves;
   }

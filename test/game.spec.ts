@@ -21,22 +21,24 @@ describe('Game', () => {
     expect(score).to.eql(0);
   });
 
-  it('determines simpe Pawn win move for CPU', () => {
-    const board = Board.emptyGame()
-      .setAt(Coordinates.from(0, 0), new King(Player.CPU))
-      .setAt(Coordinates.from(3, 3), new King(Player.Human))
-      .setAt(Coordinates.from(2, 2), new Pawn(Player.CPU));
+  describe('Calculate moves', () => {
+    it('determines simpe Pawn win move for CPU', () => {
+      const board = Board.emptyGame()
+        .setAt(Coordinates.from(0, 0), new King(Player.CPU))
+        .setAt(Coordinates.from(3, 3), new King(Player.Human))
+        .setAt(Coordinates.from(2, 2), new Pawn(Player.CPU));
 
-    const { from, to } = Game.minimax(board);
-    expect(from).to.eql(Coordinates.from(2, 2));
-    expect(to).to.eql(Coordinates.from(3, 3));
+      const { from, to } = Game.minimax(board);
+      expect(from).to.eql(Coordinates.from(2, 2));
+      expect(to).to.eql(Coordinates.from(3, 3));
+    });
+
+    it('determines move for CPU', () => {
+      const board = Board.newGame();
+      const move = Game.minimax(board);
+      console.log(move);
+    });
   });
-
-  // it.only('determines move for CPU', (done) => {
-  //   const board = Board.newGame();
-  //   const { from, to } = Game.minimax(board);
-  //   done();
-  // });
 
 
 });

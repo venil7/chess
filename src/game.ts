@@ -2,7 +2,7 @@ import Move, { EvaluatedMove, sortFunc } from './move';
 import Board, { Player, opponent } from './board';
 import Field from './field';
 
-const MAX_DEPTH = 3;
+const MAX_DEPTH = 4;
 const MAX_SCORE = 35;
 
 export default class Game {

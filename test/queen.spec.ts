@@ -27,4 +27,13 @@ describe('Queen', () => {
     ]);
     expect(moves.length).to.eql(19);
   });
+
+  it('determines no possible move, from init position', () => {
+    const board = Board.newGame()
+    const coords = Coordinates.from(3, 0);
+    const queen = board.at(coords).piece;
+
+    const moves = queen.possibleMoves(coords, board);
+    expect(moves.length).to.eql(0);
+  });
 });
