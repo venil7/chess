@@ -1,4 +1,9 @@
-export { default as Game } from './game';
-export { default as Board } from './board';
-export { default as Field } from './field';
+export { Game } from './game';
+export { Board, Player, opponent } from './board';
+export { Field, Fields } from './field';
 export { Coordinates } from './coordinates';
+export { Move, Moves } from './move';
+export {
+  Pawn, Rook, Knight, Bishop,
+  Queen, King, Piece
+} from './pieces/index';

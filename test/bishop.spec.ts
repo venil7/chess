@@ -1,6 +1,6 @@
 /// <reference path="../typings/index.d.ts" />
-import Board, { Player } from '../src/board';
-import Field from '../src/field';
+import { Board, Player } from '../src/board';
+import { Field } from '../src/field';
 import { Coordinates } from '../src/coordinates';
 import { Bishop } from '../src/pieces/index';
 import * as chai from 'chai';

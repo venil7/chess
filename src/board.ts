@@ -1,5 +1,5 @@
-import Move, { Moves } from './move';
-import Field, { Fields } from './field';
+import { Move, Moves } from './move';
+import { Field, Fields } from './field';
 import { Coordinates } from './coordinates';
 import {
   Pawn, Rook, Knight, Bishop,
@@ -21,7 +21,7 @@ export const opponent = (player: Player) => {
   }
 }
 
-export default class Board {
+export class Board {
   constructor(private _fields: Fields) { }
 
   public get fields() {

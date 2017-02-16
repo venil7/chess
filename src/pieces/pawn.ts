@@ -1,8 +1,8 @@
 import { Piece } from './piece';
 import { Coordinates } from '../coordinates';
-import Board, { Player } from '../board';
+import { Board, Player } from '../board';
 
-export default class Pawn extends Piece {
+export class Pawn extends Piece {
   get weight(): number { return 1; }
 
   toString(): string { return this.player == Player.Human ? '♙' : '♟' };

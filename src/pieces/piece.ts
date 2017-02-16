@@ -1,5 +1,5 @@
 import { Coordinates } from '../coordinates';
-import Board, { Player } from '../board';
+import { Board, Player } from '../board';
 
 export abstract class Piece {
   readonly weight: number;
@@ -14,7 +14,7 @@ export abstract class Piece {
   }
 
   protected possiblePathMoves(
-    path: IterableIterator<Coordinates>|Coordinates[],
+    path: IterableIterator<Coordinates> | Coordinates[],
     board: Board,
     includeStrikes: boolean = true): Coordinates[] {
     const moves = []

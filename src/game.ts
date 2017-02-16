@@ -1,11 +1,11 @@
-import Move, { EvaluatedMove, sortFunc } from './move';
-import Board, { Player, opponent } from './board';
-import Field from './field';
+import { Move, EvaluatedMove, sortFunc } from './move';
+import { Board, Player, opponent } from './board';
+import { Field } from './field';
 
 const MAX_DEPTH = 4;
 const MAX_SCORE = 35;
 
-export default class Game {
+export class Game {
 
   public static score(board: Board, player: Player, depth: number): number {
     const extractWeight = (field: Field) => field.piece.weight;

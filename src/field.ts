@@ -1,11 +1,11 @@
 import { Piece } from './pieces/index';
 import { Coordinates } from './coordinates';
-import Board from './board';
-import Move from './move';
+import { Board } from './board';
+import { Move } from './move';
 
 export type Fields = Field[];
 
-export default class Field {
+export class Field {
   constructor(
     private _coordinates: Coordinates,
     private _piece: Piece = null) {
@@ -20,7 +20,7 @@ export default class Field {
   }
 
   clone(piece: Piece = null): Field {
-    const {_coordinates: {col, row}, _piece} = this;
+    const { _coordinates: { col, row }, _piece } = this;
     return new Field(
       Coordinates.from(col, row),
       (_piece && _piece.clone()) || piece
@@ -28,7 +28,7 @@ export default class Field {
   }
 
   toString(): String {
-    const {row, col} = this._coordinates;
+    const { row, col } = this._coordinates;
     const cell = this.isEmpty ?
       ('　') : this._piece.toString();
     return `[${cell}(${col},${row})]`;
