@@ -1,6 +1,7 @@
 import { Move, Moves } from './move';
 import { Field, Fields } from './field';
 import { Coordinates } from './coordinates';
+import { deserialize } from './deserialize';
 import {
   Pawn, Rook, Knight, Bishop,
   Queen, King, Piece
@@ -10,6 +11,14 @@ export enum Player {
   None,
   CPU,
   Human
+}
+
+export const player = (s: string) => {
+  switch (s.toLowerCase()) {
+    case 'cpu': return Player.CPU;
+    case 'human': return Player.Human;
+    default: return Player.None;
+  }
 }
 
 export const opponent = (player: Player) => {
@@ -152,5 +161,16 @@ export class Board {
     return this.fieldsByPlayer(player)
       .map((field) => field.possibleMoves(this))
       .reduce((acc, moves) => acc.concat(moves), <Moves>[]);
+  }
+
+  public toJSON(): string[] {
+    return this.fields.map(({ isEmpty, piece }) =>
+      isEmpty ? null : `${piece}`);
+  }
+
+  public static fromJSON(json: string[]): Board {
+    const fields = json.map((item, index) =>
+      new Field(Coordinates.fromIndex(index), deserialize(item)));
+    return new Board(fields);
   }
 }

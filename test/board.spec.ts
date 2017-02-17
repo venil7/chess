@@ -89,4 +89,11 @@ describe('Chess board', () => {
     expect(board.gameOver).to.eql(true);
   });
 
+  it('Serializes/deserializes from JSON and is equal', () => {
+    const board = Board.newGame();
+    const json = board.toJSON();
+    const clone = Board.fromJSON(json);
+    expect(board).to.eql(clone);
+  });
+
 });

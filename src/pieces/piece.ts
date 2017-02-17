@@ -9,6 +9,10 @@ export abstract class Piece {
     return [];
   }
 
+  toString(): string {
+    return '';
+  }
+
   clone(): Piece {
     throw new Error('not implemented in abstract class');
   }

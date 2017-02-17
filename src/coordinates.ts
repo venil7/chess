@@ -6,6 +6,12 @@ export class Coordinates {
     return new this(col, row);
   }
 
+  static fromIndex(index: number) {
+    const col = index % 8;
+    const row = Math.floor(index / 8);
+    return new this(col, row);
+  }
+
   public get index(): number {
     return this.row * 8 + this.col;
   }
