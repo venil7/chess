@@ -2,11 +2,15 @@ import { Coordinates } from '../coordinates';
 import { Board, Player } from '../board';
 
 export abstract class Piece {
-  readonly weight: number;
+  readonly _weight: number = 0;
   constructor(public player: Player) { }
 
   possibleMoves(coordinates: Coordinates, board: Board): Coordinates[] {
     return [];
+  }
+
+  weight(coordinates: Coordinates): number {
+    return this._weight;
   }
 
   toString(): string {

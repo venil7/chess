@@ -1,17 +1,22 @@
 import { Move, EvaluatedMove, sortFunc } from './move';
 import { Board, Player, opponent } from './board';
 import { Field } from './field';
+import { Pawn } from './pieces';
+
+
+export const extractWeight = ({ piece, coordinates }: Field) => piece.weight(coordinates);
+export const sum = (acc, i) => acc + i;
 
 const MAX_DEPTH = 3;
-const MAX_SCORE = 35;
+const MAX_SCORE = Board.newGame().fieldsByPlayer(Player.CPU).map(extractWeight).reduce(sum); //~34.9
 
 export class Game {
 
   public static score(board: Board, depth: number): number {
-    const extractWeight = (field: Field) => field.piece.weight;
-    const sum = (acc, i) => acc + i;
-    const cpuScore = board.fieldsByPlayer(Player.CPU).map(extractWeight).reduce(sum);
-    const humanScore = board.fieldsByPlayer(Player.Human).map(extractWeight).reduce(sum);
+    const cpuScore = +board.fieldsByPlayer(Player.CPU)
+      .map(extractWeight).reduce(sum).toFixed(2);
+    const humanScore = +board.fieldsByPlayer(Player.Human)
+      .map(extractWeight).reduce(sum).toFixed(2);
     return (cpuScore - humanScore) - depth;
   }
 

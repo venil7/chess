@@ -3,9 +3,17 @@ import { Coordinates } from '../coordinates';
 import { Board, Player } from '../board';
 
 export class Pawn extends Piece {
-  get weight(): number { return 1; }
+  readonly _weight = 1;
 
   toString(): string { return this.player == Player.Human ? '♙' : '♟' };
+
+  weight({ row }: Coordinates): number {
+    const coefficient = .01;
+    const human = this.player === Player.Human;
+    return human
+      ? this._weight - ((7 - row) * coefficient)
+      : this._weight - (row * coefficient);
+  }
 
   possibleMoves(coordinates: Coordinates, board: Board): Coordinates[] {
     const human = this.player === Player.Human;

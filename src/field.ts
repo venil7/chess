@@ -16,6 +16,10 @@ export class Field {
     return this._piece;
   }
 
+  get coordinates(): Coordinates {
+    return this._coordinates;
+  }
+
   get isEmpty(): Boolean {
     return this._piece == null;
   }

@@ -3,7 +3,7 @@ import { Coordinates } from '../coordinates';
 import { Board, Player } from '../board';
 
 export class King extends Piece {
-  get weight(): number { return 8; }
+  readonly _weight = 8;
 
   toString(): string { return this.player == Player.Human ? '♔' : '♚' };
 
