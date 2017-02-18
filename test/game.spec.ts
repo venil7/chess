@@ -9,15 +9,7 @@ const { assert, expect } = chai;
 describe('Game', () => {
   it('calculates correct score for CPU player/depth', () => {
     const board = Board.newGame();
-    const player = Player.CPU;
-    const score = Game.score(board, player, 0);
-    expect(score).to.eql(0);
-  });
-
-  it('calculates correct score for Human player/depth', () => {
-    const board = Board.newGame();
-    const player = Player.Human;
-    const score = Game.score(board, player, 0);
+    const score = Game.score(board, 0);
     expect(score).to.eql(0);
   });
 

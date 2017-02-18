@@ -2,21 +2,21 @@ import { Move, EvaluatedMove, sortFunc } from './move';
 import { Board, Player, opponent } from './board';
 import { Field } from './field';
 
-const MAX_DEPTH = 4;
+const MAX_DEPTH = 3;
 const MAX_SCORE = 35;
 
 export class Game {
 
-  public static score(board: Board, player: Player, depth: number): number {
+  public static score(board: Board, depth: number): number {
     const extractWeight = (field: Field) => field.piece.weight;
     const sum = (acc, i) => acc + i;
-    const playerScore = board.fieldsByPlayer(player).map(extractWeight).reduce(sum);
-    const opponentScore = board.fieldsByPlayer(opponent(player)).map(extractWeight).reduce(sum);
-    return (playerScore - opponentScore) - depth;
+    const cpuScore = board.fieldsByPlayer(Player.CPU).map(extractWeight).reduce(sum);
+    const humanScore = board.fieldsByPlayer(Player.Human).map(extractWeight).reduce(sum);
+    return (cpuScore - humanScore) - depth;
   }
 
   public static cpu(board: Board) {
-    const evaluatedMove = this.minimax(board, Player.CPU)
+    const evaluatedMove = this.minimax(board);
     return board.makeMove(evaluatedMove);
   }
 
@@ -29,20 +29,23 @@ export class Game {
     }
 
     if (depth >= MAX_DEPTH) {
-      return EvaluatedMove.from(move, this.score(board, player, depth));
+      return EvaluatedMove.from(move, this.score(board, depth));
     }
 
     const opposingPlayer = opponent(player);
-    const [firstMove] = board.possibleMoves(player)
-      .map((move) => {
-        const newBoard = board.makeMove(move);
-        return this.minimax(newBoard, opposingPlayer, move, (depth + 1));
-      })
-      .sort(sortFunc(player));
+    const possibleMoves = board.possibleMoves(player);
+    const evaluatedMoves = possibleMoves.map((move) => {
+      const newBoard = board.makeMove(move);
+      const { score } = this.minimax(newBoard, opposingPlayer, move, (depth + 1));
+      return EvaluatedMove.from(move, score);
+    });
 
-    return firstMove
-      ? firstMove
-      : EvaluatedMove.from(move, this.score(board, player, depth));
+    const sortedMoves = evaluatedMoves.sort(sortFunc(player));
+    const [bestMove] = sortedMoves;
+
+    return bestMove
+      ? bestMove
+      : EvaluatedMove.from(move, this.score(board, depth));
   }
 
 }

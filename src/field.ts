@@ -2,6 +2,7 @@ import { Piece } from './pieces/index';
 import { Coordinates } from './coordinates';
 import { Board } from './board';
 import { Move } from './move';
+import * as chalk from 'chalk';
 
 export type Fields = Field[];
 
@@ -29,9 +30,10 @@ export class Field {
 
   toString(): String {
     const { row, col } = this._coordinates;
-    const cell = this.isEmpty ?
-      ('　') : this._piece.toString();
-    return `[${cell}(${col},${row})]`;
+    const piece = this.isEmpty ?
+      (' ') : this._piece.toString();
+    const cell = chalk.gray(`(${col},${row})`);
+    return `[${piece}${cell}]`;
   }
 
   possibleMoves(board: Board): Move[] {

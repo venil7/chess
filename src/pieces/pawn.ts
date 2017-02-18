@@ -9,12 +9,30 @@ export class Pawn extends Piece {
 
   possibleMoves(coordinates: Coordinates, board: Board): Coordinates[] {
     const human = this.player === Player.Human;
-    let freeMoves: Coordinates[] = [];
-    freeMoves.push(human ?
-      coordinates.up() :
-      coordinates.down());
-
-    freeMoves = freeMoves.filter(c => board.at(c).isEmpty);
+    let freeMoves = [];
+    if (human) {
+      const up = coordinates.up();
+      if (up !== null && board.at(up).isEmpty) {
+        freeMoves.push(up);
+        if (coordinates.row === 6) {
+          const up2 = up.up();
+          if (board.at(up2).isEmpty) {
+            freeMoves.push(up2);
+          }
+        }
+      }
+    } else {
+      const down = coordinates.down();
+      if (down !== null && board.at(down).isEmpty) {
+        freeMoves.push(down);
+        if (coordinates.row === 1) {
+          const down2 = down.down();
+          if (board.at(down2).isEmpty) {
+            freeMoves.push(down2);
+          }
+        }
+      }
+    }
 
     let strikes = human
       ? [coordinates.upleft(), coordinates.upright()]

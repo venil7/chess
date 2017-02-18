@@ -47,11 +47,20 @@ describe('Chess board', () => {
     expect(clone.at(Coordinates.from(2, 2)).piece).to.eql(new Rook(Player.Human));
   });
 
-  it('calculates current possible moves for CPU', () => {
+  it('calculates current possible moves for Human', () => {
     const board = Board.newGame();
     const possibleMoves = board.possibleMoves(Player.Human);
     expect(possibleMoves).to.deep.include.members([
-      //pawns
+      //pawns close
+      new Move(Coordinates.from(0, 6), Coordinates.from(0, 4)),
+      new Move(Coordinates.from(1, 6), Coordinates.from(1, 4)),
+      new Move(Coordinates.from(2, 6), Coordinates.from(2, 4)),
+      new Move(Coordinates.from(3, 6), Coordinates.from(3, 4)),
+      new Move(Coordinates.from(4, 6), Coordinates.from(4, 4)),
+      new Move(Coordinates.from(5, 6), Coordinates.from(5, 4)),
+      new Move(Coordinates.from(6, 6), Coordinates.from(6, 4)),
+      new Move(Coordinates.from(7, 6), Coordinates.from(7, 4)),
+      //pawns far
       new Move(Coordinates.from(0, 6), Coordinates.from(0, 5)),
       new Move(Coordinates.from(1, 6), Coordinates.from(1, 5)),
       new Move(Coordinates.from(2, 6), Coordinates.from(2, 5)),
@@ -66,6 +75,38 @@ describe('Chess board', () => {
       new Move(Coordinates.from(6, 7), Coordinates.from(5, 5)),
       new Move(Coordinates.from(6, 7), Coordinates.from(7, 5)),
     ]);
+    expect(possibleMoves.length).to.eql(20);
+  });
+
+  it('calculates current possible moves for CPU', () => {
+    const board = Board.newGame();
+    const possibleMoves = board.possibleMoves(Player.CPU);
+    expect(possibleMoves).to.deep.include.members([
+      //pawns close
+      new Move(Coordinates.from(0, 1), Coordinates.from(0, 2)),
+      new Move(Coordinates.from(1, 1), Coordinates.from(1, 2)),
+      new Move(Coordinates.from(2, 1), Coordinates.from(2, 2)),
+      new Move(Coordinates.from(3, 1), Coordinates.from(3, 2)),
+      new Move(Coordinates.from(4, 1), Coordinates.from(4, 2)),
+      new Move(Coordinates.from(5, 1), Coordinates.from(5, 2)),
+      new Move(Coordinates.from(6, 1), Coordinates.from(6, 2)),
+      new Move(Coordinates.from(7, 1), Coordinates.from(7, 2)),
+      //pawns far
+      new Move(Coordinates.from(0, 1), Coordinates.from(0, 3)),
+      new Move(Coordinates.from(1, 1), Coordinates.from(1, 3)),
+      new Move(Coordinates.from(2, 1), Coordinates.from(2, 3)),
+      new Move(Coordinates.from(3, 1), Coordinates.from(3, 3)),
+      new Move(Coordinates.from(4, 1), Coordinates.from(4, 3)),
+      new Move(Coordinates.from(5, 1), Coordinates.from(5, 3)),
+      new Move(Coordinates.from(6, 1), Coordinates.from(6, 3)),
+      new Move(Coordinates.from(7, 1), Coordinates.from(7, 3)),
+      //knights
+      new Move(Coordinates.from(1, 0), Coordinates.from(0, 2)),
+      new Move(Coordinates.from(1, 0), Coordinates.from(2, 2)),
+      new Move(Coordinates.from(6, 0), Coordinates.from(5, 2)),
+      new Move(Coordinates.from(6, 0), Coordinates.from(7, 2)),
+    ]);
+    expect(possibleMoves.length).to.eql(20);
   });
 
   it('Moves piece properly from field to field', () => {
