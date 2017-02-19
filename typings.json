@@ -1,6 +1,9 @@
 {
   "name": "chess",
-  "dependencies": {},
+  "dependencies": {
+    "react": "registry:npm/react#15.0.1+20170104200836",
+    "react-dom": "registry:npm/react-dom#15.0.1+20160826174104"
+  },
   "globalDependencies": {
     "mocha": "registry:dt/mocha#2.2.5+20170118061455"
   },

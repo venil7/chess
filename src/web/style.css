@@ -1,0 +1,38 @@
+.board {
+  display: block;
+  width: 240px;
+  height: 240px;
+  /*border: 1px gray;*/
+}
+
+.cell {
+  display: block;
+  float: left;
+  width: 30px;
+  height: 28px;
+  background-color: ivory;
+}
+
+.cell:nth-child(-2n+8),
+.cell:nth-child(8) ~ .cell:nth-child(-2n+15),
+.cell:nth-child(16) ~ .cell:nth-child(-2n+24),
+.cell:nth-child(24) ~ .cell:nth-child(-2n+31),
+.cell:nth-child(32) ~ .cell:nth-child(-2n+40),
+.cell:nth-child(40) ~ .cell:nth-child(-2n+47),
+.cell:nth-child(48) ~ .cell:nth-child(-2n+56),
+.cell:nth-child(56) ~ .cell:nth-child(-2n+63) {
+    background-color: PowderBlue;
+}
+
+.board .cell:hover {
+  opacity: .7;
+  cursor: pointer;
+}
+
+.board .cell.selected {
+  background-color: DarkSeaGreen !important;
+}
+
+.board .cell.possible-move {
+  background-color: PaleGreen !important;
+}

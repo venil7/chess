@@ -2,8 +2,11 @@
   "compilerOptions": {
     "module": "commonjs",
     "target": "es6",
-    "outDir": "./lib/",
-    "sourceMap": true
+    "outDir": "./build/",
+    "sourceMap": true,
+    "jsx": "react",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   },
   "include": [
     "./src/**/*.ts"

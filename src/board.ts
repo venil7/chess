@@ -83,6 +83,12 @@ export class Board {
     return new Board(fields);
   }
 
+  static fromJSON(json: string[]): Board {
+    const fields = json.map((item, index) =>
+      new Field(Coordinates.fromIndex(index), deserialize(item)));
+    return new Board(fields);
+  }
+
   static newGame(): Board {
     const fields: Fields = [
       ...Board.piecesRow(Board.coordGenerator(0), Player.CPU),
@@ -160,7 +166,7 @@ export class Board {
   public possibleMoves(player: Player): Moves {
     return this.fieldsByPlayer(player)
       .map((field) => field.possibleMoves(this))
-      .reduce((acc, moves) => acc.concat(moves), <Moves>[]);
+      .reduce((acc, moves) => acc.concat(moves), []);
   }
 
   public toJSON(): string[] {
@@ -168,9 +174,5 @@ export class Board {
       isEmpty ? null : `${piece}`);
   }
 
-  public static fromJSON(json: string[]): Board {
-    const fields = json.map((item, index) =>
-      new Field(Coordinates.fromIndex(index), deserialize(item)));
-    return new Board(fields);
-  }
+
 }
