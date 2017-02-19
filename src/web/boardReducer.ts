@@ -12,13 +12,15 @@ interface BoardState {
   board: Board;
   selectedField: Field;
   possibleMoves: Move[];
+  thinking: boolean;
 }
 
 const initState = (): BoardState => {
   return {
     board: Board.newGame(),
     selectedField: null,
-    possibleMoves: []
+    possibleMoves: [],
+    thinking: false,
   };
 };
 
@@ -27,36 +29,38 @@ export const boardReducer = (state: BoardState = initState(), action: Action): B
     case 'NEW_GAME': {
       return initState();
     }
+    case 'MOVE_PIECE': {
+      const move: Move = action.move;
+      const board = state.board.makeMove(move);
+      return {
+        ...state,
+        board,
+        selectedField: null,
+        possibleMoves: []
+      };
+    }
+    case 'CPU_TIME_ON': {
+      return {
+        ...state,
+        thinking: true
+      };
+    }
+    case 'REPLACE_BOARD': {
+      return {
+        board: action.board,
+        selectedField: null,
+        possibleMoves: [],
+        thinking: false
+      };
+    }
     case 'SELECT_FIELD': {
       const field: Field = action.field;
-      const { selectedField } = state;
-      if (selectedField && selectedField.piece.player === Player.Human) {
-        const { possibleMoves } = state;
-        const possibleCoords = possibleMoves.map(({ from, to }) => to);
-        if (possibleCoords.some(coord => field.coordinates.index === coord.index)) {
-          const move = new Move(selectedField.coordinates, action.field.coordinates);
-          const board = Game.cpu(state.board.makeMove(move))
-          return {
-            board,
-            selectedField: null,
-            possibleMoves: []
-          };
-        }
-      }
-      if (!field.isEmpty) {
-        return {
-          ...state,
-          selectedField: field,
-          possibleMoves: field.possibleMoves(state.board)
-        };
-      } else {
-        return {
-          ...state,
-          selectedField: null,
-          possibleMoves: []
-        }
-      }
+      return {
+        ...state,
+        selectedField: field.isEmpty ? null : field,
+        possibleMoves: field.isEmpty ? [] : field.possibleMoves(state.board)
+      };
     }
+    default: return state;
   }
-  return state;
 };

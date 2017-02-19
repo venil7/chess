@@ -3,6 +3,7 @@ import * as React from 'react';
 import { ChessBoard } from './ChessBoard';
 import { Field } from '../field';
 import { connect } from 'react-redux';
+import * as actions from './boardActions';
 
 const { Component } = React;
 
@@ -10,12 +11,12 @@ const { Component } = React;
 export class Game extends Component<any, any> {
   onNewGame() {
     const { dispatch } = this.props;
-    dispatch({ type: 'NEW_GAME' });
+    dispatch(actions.newGame());
   }
 
   onCellClick(field: Field) {
     const { dispatch } = this.props;
-    dispatch({ type: "SELECT_FIELD", field });
+    dispatch(actions.selectFieldThunk(field));
   }
 
   render() {
@@ -30,7 +31,8 @@ export class Game extends Component<any, any> {
           selectedField={selectedField}
           possibleMoves={possibleMoves}
           board={board}
-          onCellClick={(f) => this.onCellClick(f)} />
+          onCellClick={(field) => this.onCellClick(field)} />
+        <span>Move: {game.thinking ? 'CPU' : 'Human'}</span>
       </div>
     );
   }

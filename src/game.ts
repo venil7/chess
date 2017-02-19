@@ -25,6 +25,10 @@ export class Game {
     return board.makeMove(evaluatedMove);
   }
 
+  public static async cpuAsync(board: Board) {
+    return Game.cpu(board);
+  }
+
   public static minimax(board: Board, player: Player = Player.CPU, move?: Move, depth: number = 0): EvaluatedMove {
     const { gameOver, winner } = board;
 
