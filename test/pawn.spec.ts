@@ -96,6 +96,17 @@ describe('Pawn', () => {
       expect(moves).to.eql([frontCoords, strikeCoords]);
     });
 
+    it('calculates pawn weight higher the closer it gets to enemy lines', () => {
+      const board = Board.newGame().setAt(Coordinates.from(0, 2), new Pawn(Player.CPU));
+      const field1 = board.at(Coordinates.from(0, 1));
+      const field2 = board.at(Coordinates.from(0, 2));
+      const { piece: piece1, coordinates: coordinates1 } = field1;
+      const { piece: piece2, coordinates: coordinates2 } = field2;
+      const weight1 = (<Pawn>piece1).weight(coordinates1);
+      const weight2 = (<Pawn>piece2).weight(coordinates2);
+      expect(weight1 < weight2).to.eq(true);
+    });
+
   });
 
 });
