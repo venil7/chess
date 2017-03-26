@@ -1,6 +1,7 @@
 .fusebox/
 node_modules/
 example/node_modules/
+example/build/
 typings/
 build/**/*.js
 build/**/*.js.map
