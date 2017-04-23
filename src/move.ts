@@ -1,8 +1,6 @@
 import { Coordinates } from './coordinates';
 import { Player } from './board';
 
-export type Moves = Move[];
-
 export class Move {
   constructor(
     public from: Coordinates,

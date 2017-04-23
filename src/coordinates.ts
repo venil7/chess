@@ -12,6 +12,16 @@ export class Coordinates {
     return new this(col, row);
   }
 
+  private buildPath(getNext: (c: Coordinates) => Coordinates): Coordinates[] {
+    let next = getNext(this);
+    const result = [];
+    while (next !== null) {
+      result.push(next);
+      next = getNext(next);
+    }
+    return result;
+  }
+
   public get index(): number {
     return this.row * 8 + this.col;
   }
@@ -64,66 +74,35 @@ export class Coordinates {
     return step && step.right();
   }
 
-  public *upPath() {
-    let next = this.up();
-    while (next !== null) {
-      yield next;
-      next = next.up();
-    }
+  public upPath(): Coordinates[] {
+    return this.buildPath(c => c.up());
   }
 
-  public *downPath() {
-    let next = this.down();
-    while (next !== null) {
-      yield next;
-      next = next.down();
-    }
+  public downPath(): Coordinates[] {
+    return this.buildPath(c => c.down());
   }
 
-  public *leftPath() {
-    let next = this.left();
-    while (next !== null) {
-      yield next;
-      next = next.left();
-    }
+  public leftPath(): Coordinates[] {
+    return this.buildPath(c => c.left());
   }
 
-  public *rightPath() {
-    let next = this.right();
-    while (next !== null) {
-      yield next;
-      next = next.right();
-    }
+  public rightPath(): Coordinates[] {
+    return this.buildPath(c => c.right());
   }
 
-  public *upleftPath() {
-    let next = this.upleft();
-    while (next !== null) {
-      yield next;
-      next = next.upleft();
-    }
+  public upleftPath(): Coordinates[] {
+    return this.buildPath(c => c.upleft());
   }
 
-  public *uprightPath() {
-    let next = this.upright();
-    while (next !== null) {
-      yield next;
-      next = next.upright();
-    }
-  }
-  public *downleftPath() {
-    let next = this.downleft();
-    while (next !== null) {
-      yield next;
-      next = next.downleft();
-    }
+  public uprightPath(): Coordinates[] {
+    return this.buildPath(c => c.upright());
   }
 
-  public *downrightPath() {
-    let next = this.downright();
-    while (next !== null) {
-      yield next;
-      next = next.downright();
-    }
+  public downleftPath(): Coordinates[] {
+    return this.buildPath(c => c.downleft());
+  }
+
+  public downrightPath(): Coordinates[] {
+    return this.buildPath(c => c.downright());
   }
 }

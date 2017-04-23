@@ -3,10 +3,7 @@ const [, , action = ''] = process.argv;
 
 const fuseBox = fsbx.FuseBox.init({
   homeDir: 'src/',
-  sourceMap: {
-    bundleReference: './index.js.map',
-    outFile: './build/index.js.map',
-  },
+  sourcemaps: true,
   outFile: './build/index.js',
   plugins: [
     fsbx.CSSPlugin(),
