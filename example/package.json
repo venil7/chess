@@ -1,6 +1,7 @@
 {
-  "name": "exmpl",
+  "name": "chess-example",
   "version": "0.1.0",
+  "author": "Art Deineka",
   "private": true,
   "dependencies": {
     "prop-types": "^15.5.8",
