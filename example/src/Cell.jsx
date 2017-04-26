@@ -1,16 +1,8 @@
-/// <reference path="../../typings/index.d.ts" />
 import * as React from 'react';
-import { Field } from '../field'
 
 const { Component } = React;
-interface Props {
-  field: Field;
-  onClick: (field: Field) => void;
-  selected: boolean;
-  possibleMove: boolean;
-}
 
-export class Cell extends Component<Props, any> {
+export class Cell extends Component {
   onClick() {
     const { onClick, field } = this.props;
     onClick(field);

@@ -1,20 +1,18 @@
-/// <reference path="../../typings/index.d.ts" />
 import * as React from 'react';
 import { ChessBoard } from './ChessBoard';
-import { Field } from '../field';
-import { connect } from 'react-redux';
+import { connect} from 'react-redux';
 import * as actions from './boardActions';
 
 const { Component } = React;
+const enhance = connect((state) => ({ game: state.game }));
 
-@connect((state) => ({ game: state.game }))
-export class Game extends Component<any, any> {
+class Game extends Component {
   onNewGame() {
     const { dispatch } = this.props;
     dispatch(actions.newGame());
   }
 
-  onCellClick(field: Field) {
+  onCellClick(field) {
     const { dispatch } = this.props;
     dispatch(actions.selectFieldThunk(field));
   }
@@ -37,3 +35,6 @@ export class Game extends Component<any, any> {
     );
   }
 }
+const ConnectedGame = enhance(Game);
+
+export { ConnectedGame as Game };
