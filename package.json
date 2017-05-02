@@ -1,5 +1,5 @@
 {
-  "name": "chess",
+  "name": "chess-js",
   "version": "1.0.1",
   "description": "chess engine",
   "main": "build/index.js",

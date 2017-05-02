@@ -2,7 +2,7 @@
   "name": "chess-example",
   "version": "0.1.0",
   "author": "Art Deineka",
-  "private": true,
+  "repository": "https://github.com/venil7/chess",
   "dependencies": {
     "prop-types": "^15.5.8",
     "react": "^15.5.4",
