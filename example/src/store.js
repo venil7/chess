@@ -1,13 +1,9 @@
 import { applyMiddleware, createStore, combineReducers } from 'redux';
-import * as createLogger from 'redux-logger';
+import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
-
-import { boardReducer } from './boardReducer';
+import boardReducer from './boardReducer';
 
 const loggerMiddleware = createLogger();
-const defaultState = {
-  items: []
-};
 
 const reducer = combineReducers({
   game: boardReducer

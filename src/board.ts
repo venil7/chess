@@ -1,11 +1,8 @@
-import { Move, Moves } from './move';
-import { Field, Fields } from './field';
+import { Move } from './move';
+import { Field } from './field';
 import { Coordinates } from './coordinates';
 import { deserialize } from './deserialize';
-import {
-  Pawn, Rook, Knight, Bishop,
-  Queen, King, Piece
-} from './pieces/index';
+import { Pawn, Rook, Knight, Bishop, Queen, King, Piece } from './pieces/index';
 
 export enum Player {
   None,
@@ -31,45 +28,45 @@ export const opponent = (player: Player) => {
 }
 
 export class Board {
-  constructor(private _fields: Fields) { }
+  constructor(private _fields: Field[]) { }
 
   public get fields() {
     return this._fields;
   }
 
-  private static *singleRowGenerator() {
+  private static singleRowGenerator(): number[] {
     const WIDTH = 8;
-    for (let col = 0; col < WIDTH; col++) yield col;
+    return Array.apply(null, { length: WIDTH }).map(Number.call, Number);
   }
 
-  private static *coordGenerator(row: number) {
-    for (const col of Board.singleRowGenerator())
-      yield Coordinates.from(col, row);
+  private static coordGenerator(row: number): Coordinates[] {
+    return Board.singleRowGenerator().map(col => Coordinates.from(col, row));
   }
 
-  static piecesRow(coordIterator: IterableIterator<Coordinates>, player: Player): Field[] {
-    return [
-      new Field(coordIterator.next().value, new Rook(player)),
-      new Field(coordIterator.next().value, new Knight(player)),
-      new Field(coordIterator.next().value, new Bishop(player)),
-      new Field(coordIterator.next().value, new Queen(player)),
-      new Field(coordIterator.next().value, new King(player)),
-      new Field(coordIterator.next().value, new Bishop(player)),
-      new Field(coordIterator.next().value, new Knight(player)),
-      new Field(coordIterator.next().value, new Rook(player))
+  static piecesRow(coordinates: Coordinates[], player: Player): Field[] {
+    const pieces = [
+      new Rook(player),
+      new Knight(player),
+      new Bishop(player),
+      new Queen(player),
+      new King(player),
+      new Bishop(player),
+      new Knight(player),
+      new Rook(player),
     ];
+    return pieces.map((piece, index) => new Field(coordinates[index], piece));
   };
 
-  static pawnRow(coordIterator: IterableIterator<Coordinates>, player: Player): Field[] {
-    return [...coordIterator].map((coordinates) => new Field(coordinates, new Pawn(player)));
+  static pawnRow(coordinates: Coordinates[], player: Player): Field[] {
+    return [...coordinates].map((coordinates) => new Field(coordinates, new Pawn(player)));
   };
 
-  private static emptyRow(coordIterator: IterableIterator<Coordinates>): Field[] {
-    return [...coordIterator].map((coordinates) => new Field(coordinates));
+  private static emptyRow(coordinates: Coordinates[]): Field[] {
+    return [...coordinates].map((coordinates) => new Field(coordinates));
   };
 
   static emptyGame(): Board {
-    const fields: Fields = [
+    const fields: Field[] = [
       ...Board.emptyRow(Board.coordGenerator(0)),
       ...Board.emptyRow(Board.coordGenerator(1)),
       ...Board.emptyRow(Board.coordGenerator(2)),
@@ -90,7 +87,7 @@ export class Board {
   }
 
   static newGame(): Board {
-    const fields: Fields = [
+    const fields: Field[] = [
       ...Board.piecesRow(Board.coordGenerator(0), Player.CPU),
       ...Board.pawnRow(Board.coordGenerator(1), Player.CPU),
       ...Board.emptyRow(Board.coordGenerator(2)),
@@ -163,7 +160,7 @@ export class Board {
       .filter(field => !field.isEmpty && field.piece.player === player);
   }
 
-  public possibleMoves(player: Player): Moves {
+  public possibleMoves(player: Player): Move[] {
     return this.fieldsByPlayer(player)
       .map((field) => field.possibleMoves(this))
       .reduce((acc, moves) => acc.concat(moves), []);

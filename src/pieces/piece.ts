@@ -21,10 +21,7 @@ export abstract class Piece {
     throw new Error('not implemented in abstract class');
   }
 
-  protected possiblePathMoves(
-    path: IterableIterator<Coordinates> | Coordinates[],
-    board: Board,
-    includeStrikes: boolean = true): Coordinates[] {
+  protected possiblePathMoves(path: Coordinates[], board: Board, includeStrikes: boolean = true): Coordinates[] {
     const moves = []
     for (const coord of path) {
       const field = board.at(coord);

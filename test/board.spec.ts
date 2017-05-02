@@ -10,7 +10,7 @@ const { assert, expect } = chai;
 describe('Chess board', () => {
   it('prints correctlty, when new', () => {
     const board = Board.newGame();
-    console.log(board.toString());
+    // console.log(board.toString());
   });
 
   it('gets correct field [Rook@0,0] by coordinates', () => {

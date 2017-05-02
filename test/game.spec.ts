@@ -28,7 +28,7 @@ describe('Game', () => {
     it('determines move for CPU', () => {
       const board = Board.newGame();
       const move = Game.minimax(board);
-      console.log(move);
+      // console.log(move);
     });
   });
 
@@ -51,6 +51,5 @@ describe('Game', () => {
       expect(w1).to.be.eql(w2);
     });
   });
-
 
 });

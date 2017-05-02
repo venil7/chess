@@ -1,21 +1,6 @@
-import { Board, Player } from '../board';
-import { Field } from '../field';
-import { Move } from '../move';
-import { Game } from '../game';
+import { Board } from '../../build';
 
-interface Action {
-  type: string,
-  [index: string]: any
-}
-
-interface BoardState {
-  board: Board;
-  selectedField: Field;
-  possibleMoves: Move[];
-  thinking: boolean;
-}
-
-const initState = (): BoardState => {
+const initState = () => {
   return {
     board: Board.newGame(),
     selectedField: null,
@@ -24,13 +9,13 @@ const initState = (): BoardState => {
   };
 };
 
-export const boardReducer = (state: BoardState = initState(), action: Action): BoardState => {
+const boardReducer = (state = initState(), action) => {
   switch (action.type) {
     case 'NEW_GAME': {
       return initState();
     }
     case 'MOVE_PIECE': {
-      const move: Move = action.move;
+      const move = action.move;
       const board = state.board.makeMove(move);
       return {
         ...state,
@@ -54,7 +39,7 @@ export const boardReducer = (state: BoardState = initState(), action: Action): B
       };
     }
     case 'SELECT_FIELD': {
-      const field: Field = action.field;
+      const field = action.field;
       return {
         ...state,
         selectedField: field.isEmpty ? null : field,
@@ -64,3 +49,5 @@ export const boardReducer = (state: BoardState = initState(), action: Action): B
     default: return state;
   }
 };
+
+export default boardReducer;
