@@ -7,7 +7,7 @@ const initState = () => {
     possibleMoves: [],
     thinking: false,
     settings: {
-      pruning: false,
+      pruning: true,
       depth: 3
     }
   };
