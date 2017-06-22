@@ -6,6 +6,10 @@ const initState = () => {
     selectedField: null,
     possibleMoves: [],
     thinking: false,
+    settings: {
+      pruning: false,
+      depth: 3
+    }
   };
 };
 
@@ -35,7 +39,17 @@ const boardReducer = (state = initState(), action) => {
         board: action.board,
         selectedField: null,
         possibleMoves: [],
-        thinking: false
+        thinking: false,
+        settings: state.settings
+      };
+    }
+    case 'SET_SETTINGS': {
+      return {
+        ...state,
+        settings: {
+          ...state.settings,
+          ...action.settings
+        }
       };
     }
     case 'SELECT_FIELD': {
@@ -46,7 +60,8 @@ const boardReducer = (state = initState(), action) => {
         possibleMoves: field.isEmpty ? [] : field.possibleMoves(state.board)
       };
     }
-    default: return state;
+    default:
+      return state;
   }
 };
 

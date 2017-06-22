@@ -1,6 +1,6 @@
-export { Game } from './game';
-export { Move } from './move';
+export { Board, Player, opponent } from './board';
 export { Field } from './field';
 export { Coordinates } from './coordinates';
-export { Board, Player, opponent } from './board';
+export { Move } from './move';
+export { cpu, minimax, alphabeta } from './game';
 export { Pawn, Rook, Knight, Bishop, Queen, King, Piece } from './pieces/index';
