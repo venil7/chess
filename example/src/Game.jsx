@@ -17,9 +17,14 @@ class Game extends Component {
     dispatch(actions.selectFieldThunk(field));
   }
 
-  onPruning(event) {
+  onPruning({ target }) {
     const { dispatch } = this.props;
-    dispatch(actions.setSettings({ pruning: event.target.checked }));
+    dispatch(actions.setSettings({ pruning: target.checked }));
+  }
+
+  onDepth({ target }) {
+    const { dispatch } = this.props;
+    dispatch(actions.setSettings({ depth: parseInt(target.value, 10) }));
   }
 
   render() {
@@ -31,8 +36,14 @@ class Game extends Component {
           <button onClick={() => this.onNewGame()}>
             New Game
           </button>
-          <input type="checkbox" onChange={v => this.onPruning(v)} defaultChecked={settings.pruning} />
-          <label>Alpha-Beta Pruning</label>
+        </div>
+        <div>
+          <input id="pruning" type="checkbox" onChange={v => this.onPruning(v)} defaultChecked={settings.pruning} />
+          <label htmlFor="pruning">Alpha-Beta Pruning</label>
+        </div>
+        <div>
+          <input type="range" onChange={v => this.onDepth(v)} defaultValue={settings.depth} min={2} max={4} />
+          <label>depth: {settings.depth}</label>
         </div>
         <ChessBoard
           selectedField={selectedField}

@@ -21,8 +21,8 @@ export const setSettings = settings => {
 };
 
 export const cpuMoveThunk = () => (dispatch, getState) => {
-  const { game } = getState();
-  const board = cpu(game.board, game.settings.pruning);
+  const { game: { settings: { pruning, depth } }, game } = getState();
+  const board = cpu(game.board, pruning, depth);
   dispatch(replaceBoard(board));
 };
 

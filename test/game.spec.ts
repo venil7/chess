@@ -1,13 +1,12 @@
 /// <reference path="../typings/index.d.ts" />
 import { Board, Player } from '../src/board';
-import * as game from '../src/game';
+import { cpu, minimax, alphabeta } from '../src/game';
 import { Coordinates } from '../src/coordinates';
 import { King, Pawn } from '../src/pieces/index';
 import * as chai from 'chai';
 const { assert, expect } = chai;
 
 describe('Game', () => {
-
   describe('Calculate moves', () => {
     it('determines simpe Pawn win move for CPU', () => {
       const board = Board.emptyGame()
@@ -15,7 +14,7 @@ describe('Game', () => {
         .setAt(Coordinates.from(3, 3), new King(Player.Human))
         .setAt(Coordinates.from(2, 2), new Pawn(Player.CPU));
 
-      const { from, to } = game.minimax(board);
+      const { from, to } = minimax(board, 2);
       expect(from).to.eql(Coordinates.from(2, 2));
       expect(to).to.eql(Coordinates.from(3, 3));
     });
@@ -26,7 +25,7 @@ describe('Game', () => {
         .setAt(Coordinates.from(3, 3), new King(Player.Human))
         .setAt(Coordinates.from(2, 2), new Pawn(Player.CPU));
 
-      const { from, to, score } = game.alphabeta(board);
+      const { from, to, score } = alphabeta(board, 2);
 
       expect(from).to.eql(Coordinates.from(2, 2));
       expect(to).to.eql(Coordinates.from(3, 3));
@@ -34,15 +33,14 @@ describe('Game', () => {
 
     it('determines move for CPU', () => {
       const board = Board.newGame();
-      const move = game.minimax(board);
+      const move = minimax(board, 2);
       console.log(move);
     });
 
     it('determines move for CPU (alpha-beta)', () => {
       const board = Board.newGame();
-      const move = game.alphabeta(board);
+      const move = alphabeta(board, 2);
       console.log(move);
     });
   });
-
 });
