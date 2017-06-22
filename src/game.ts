@@ -8,14 +8,14 @@ const DEFAULT_DEPTH = 4;
 const MAX_SCORE = Board.newGame().fieldsByPlayer(Player.CPU).map(extractWeight).reduce(sum); //~34.9
 
 export const cpu = (board: Board, pruning: boolean = false, depth: number = DEFAULT_DEPTH) => {
-  const evaluatedMove = pruning ? alphabeta(board, Player.CPU, depth) : minimax(board, Player.CPU, depth);
+  const evaluatedMove = pruning ? alphabeta(board, depth) : minimax(board, depth);
   return board.makeMove(evaluatedMove);
 };
 
 export const minimax = (
   board: Board,
-  player: Player = Player.CPU,
   depth: number = DEFAULT_DEPTH,
+  player: Player = Player.CPU,
   move?: Move
 ): EvaluatedMove => {
   const { gameOver, winner } = board;
@@ -33,7 +33,7 @@ export const minimax = (
   const possibleMoves = board.possibleMoves(player);
   const evaluatedMoves = possibleMoves.map(move => {
     const newBoard = board.makeMove(move);
-    const { score } = minimax(newBoard, opposingPlayer, depth - 1, move);
+    const { score } = minimax(newBoard, depth - 1, opposingPlayer, move);
     return EvaluatedMove.from(move, score);
   });
 
@@ -45,8 +45,8 @@ export const minimax = (
 
 export const alphabeta = (
   board: Board,
-  player: Player = Player.CPU,
   depth: number = DEFAULT_DEPTH,
+  player: Player = Player.CPU,
   move?: Move,
   alpha: number = -Infinity,
   beta: number = +Infinity
@@ -68,7 +68,7 @@ export const alphabeta = (
   const evaluatedMoves = [];
   for (const possibleMove of possibleMoves) {
     const newBoard = board.makeMove(possibleMove);
-    const { score } = alphabeta(newBoard, opposingPlayer, depth - 1, possibleMove, alpha, beta);
+    const { score } = alphabeta(newBoard, depth - 1, opposingPlayer, possibleMove, alpha, beta);
     evaluatedMoves.push(EvaluatedMove.from(possibleMove, score));
     if (maximizer) {
       if (score > alpha) {
