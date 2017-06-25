@@ -1,8 +1,9 @@
 import { Move, EvaluatedMove } from './move';
-import { Board, Player, opponent } from './board';
+import { Board, opponent } from './board';
 import { Field } from './field';
 import { Pawn } from './pieces';
 import { extractWeight, sum, score } from './score';
+import { Player } from './player';
 
 const DEFAULT_DEPTH = 4;
 const MAX_SCORE = Board.newGame().fieldsByPlayer(Player.CPU).map(extractWeight).reduce(sum); //~34.9

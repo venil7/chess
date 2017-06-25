@@ -1,6 +1,6 @@
 {
   "name": "chess-js",
-  "version": "1.0.3",
+  "version": "2.0.0",
   "description": "chess engine",
   "main": "build/index.js",
   "scripts": {

@@ -1,9 +1,10 @@
 import { Coordinates } from '../coordinates';
-import { Board, Player } from '../board';
+import { Board } from '../board';
+import { Player } from '../player';
 
 export abstract class Piece {
   readonly _weight: number = 0;
-  constructor(public player: Player) { }
+  constructor(public player: Player) {}
 
   possibleMoves(coordinates: Coordinates, board: Board): Coordinates[] {
     return [];
@@ -22,7 +23,7 @@ export abstract class Piece {
   }
 
   protected possiblePathMoves(path: Coordinates[], board: Board, includeStrikes: boolean = true): Coordinates[] {
-    const moves = []
+    const moves = [];
     for (const coord of path) {
       const field = board.at(coord);
       if (field.isEmpty) {
@@ -34,5 +35,4 @@ export abstract class Piece {
     }
     return moves;
   }
-
 }

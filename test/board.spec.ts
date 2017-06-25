@@ -1,9 +1,5 @@
 /// <reference path="../typings/index.d.ts" />
-import { Board, Player } from '../src/board';
-import { Field } from '../src/field';
-import { Move } from '../src/move';
-import { Coordinates } from '../src/coordinates';
-import { Rook, Pawn, King } from '../src/pieces/index';
+import { Board, Player, Field, Move, Coordinates, Rook, Pawn, King } from '../src/index';
 import * as chai from 'chai';
 const { assert, expect } = chai;
 
@@ -73,7 +69,7 @@ describe('Chess board', () => {
       new Move(Coordinates.from(1, 7), Coordinates.from(0, 5)),
       new Move(Coordinates.from(1, 7), Coordinates.from(2, 5)),
       new Move(Coordinates.from(6, 7), Coordinates.from(5, 5)),
-      new Move(Coordinates.from(6, 7), Coordinates.from(7, 5)),
+      new Move(Coordinates.from(6, 7), Coordinates.from(7, 5))
     ]);
     expect(possibleMoves.length).to.eql(20);
   });
@@ -104,7 +100,7 @@ describe('Chess board', () => {
       new Move(Coordinates.from(1, 0), Coordinates.from(0, 2)),
       new Move(Coordinates.from(1, 0), Coordinates.from(2, 2)),
       new Move(Coordinates.from(6, 0), Coordinates.from(5, 2)),
-      new Move(Coordinates.from(6, 0), Coordinates.from(7, 2)),
+      new Move(Coordinates.from(6, 0), Coordinates.from(7, 2))
     ]);
     expect(possibleMoves.length).to.eql(20);
   });
@@ -136,5 +132,4 @@ describe('Chess board', () => {
     const clone = Board.fromJSON(json);
     expect(board).to.eql(clone);
   });
-
 });

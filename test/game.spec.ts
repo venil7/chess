@@ -1,8 +1,5 @@
 /// <reference path="../typings/index.d.ts" />
-import { Board, Player } from '../src/board';
-import { cpu, minimax, alphabeta } from '../src/game';
-import { Coordinates } from '../src/coordinates';
-import { King, Pawn } from '../src/pieces/index';
+import { Board, Player, cpu, minimax, alphabeta, Coordinates, King, Pawn } from '../src/index';
 import * as chai from 'chai';
 const { assert, expect } = chai;
 

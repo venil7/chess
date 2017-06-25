@@ -1,11 +1,14 @@
 import { Piece } from './piece';
 import { Coordinates } from '../coordinates';
-import { Board, Player } from '../board';
+import { Board } from '../board';
+import { Player } from '../player';
 
 export class Knight extends Piece {
   readonly _weight = 3;
 
-  toString(): string { return this.player == Player.Human ? '♘' : '♞' };
+  toString(): string {
+    return this.player == Player.Human ? '♘' : '♞';
+  }
 
   clone(): Piece {
     return new Knight(this.player);
@@ -20,14 +23,11 @@ export class Knight extends Piece {
       coord.down() && coord.down().downright(),
       coord.down() && coord.down().downleft(),
       coord.left() && coord.left().downleft(),
-      coord.left() && coord.left().upleft(),
+      coord.left() && coord.left().upleft()
     ];
 
     return moves.filter(coord => {
-      return (coord !== null)
-        && (board.at(coord).isEmpty
-          || board.at(coord).piece.player !== this.player)
+      return coord !== null && (board.at(coord).isEmpty || board.at(coord).piece.player !== this.player);
     });
   }
-
 }
