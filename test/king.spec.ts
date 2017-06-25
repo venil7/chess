@@ -1,8 +1,5 @@
 /// <reference path="../typings/index.d.ts" />
-import { Board, Player } from '../src/board';
-import { Field } from '../src/field';
-import { Coordinates } from '../src/coordinates';
-import { King, Pawn } from '../src/pieces/index';
+import { Board, Player, Field, Coordinates, King, Pawn } from '../src/index';
 import * as chai from 'chai';
 const { assert, expect } = chai;
 
@@ -12,7 +9,7 @@ describe('King', () => {
     const board = Board.newGame()
       .setAt(coords, new King(Player.Human))
       .setAt(coords.upleft(), new Pawn(Player.CPU))
-      .setAt(coords.downright(), new Pawn(Player.Human))
+      .setAt(coords.downright(), new Pawn(Player.Human));
     const king = board.at(coords).piece;
 
     const moves = king.possibleMoves(coords, board);
@@ -24,13 +21,13 @@ describe('King', () => {
       Coordinates.from(3, 4), //down
       Coordinates.from(2, 4), //down-left
       Coordinates.from(2, 3), //left
-      Coordinates.from(2, 2), //up-left
+      Coordinates.from(2, 2) //up-left
     ]);
     expect(moves.length).to.eql(7);
   });
 
   it('determines no possible move, from init position', () => {
-    const board = Board.newGame()
+    const board = Board.newGame();
     const coords = Coordinates.from(4, 0);
     const rook = board.at(coords).piece;
 

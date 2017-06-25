@@ -3,32 +3,22 @@ import { Field } from './field';
 import { Coordinates } from './coordinates';
 import { deserialize } from './deserialize';
 import { Pawn, Rook, Knight, Bishop, Queen, King, Piece } from './pieces/index';
-
-export enum Player {
-  None,
-  CPU,
-  Human
-}
-
-export const player = (s: string) => {
-  switch (s.toLowerCase()) {
-    case 'cpu': return Player.CPU;
-    case 'human': return Player.Human;
-    default: return Player.None;
-  }
-}
+import { Player } from './player';
 
 export const opponent = (player: Player) => {
   const { CPU, Human, None } = Player;
   switch (player) {
-    case CPU: return Human;
-    case Human: return CPU;
-    default: return None;
+    case CPU:
+      return Human;
+    case Human:
+      return CPU;
+    default:
+      return None;
   }
-}
+};
 
 export class Board {
-  constructor(private _fields: Field[]) { }
+  constructor(private _fields: Field[]) {}
 
   public get fields() {
     return this._fields;
@@ -52,18 +42,18 @@ export class Board {
       new King(player),
       new Bishop(player),
       new Knight(player),
-      new Rook(player),
+      new Rook(player)
     ];
     return pieces.map((piece, index) => new Field(coordinates[index], piece));
-  };
+  }
 
   static pawnRow(coordinates: Coordinates[], player: Player): Field[] {
-    return [...coordinates].map((coordinates) => new Field(coordinates, new Pawn(player)));
-  };
+    return [...coordinates].map(coordinates => new Field(coordinates, new Pawn(player)));
+  }
 
   private static emptyRow(coordinates: Coordinates[]): Field[] {
-    return [...coordinates].map((coordinates) => new Field(coordinates));
-  };
+    return [...coordinates].map(coordinates => new Field(coordinates));
+  }
 
   static emptyGame(): Board {
     const fields: Field[] = [
@@ -74,15 +64,14 @@ export class Board {
       ...Board.emptyRow(Board.coordGenerator(4)),
       ...Board.emptyRow(Board.coordGenerator(5)),
       ...Board.emptyRow(Board.coordGenerator(6)),
-      ...Board.emptyRow(Board.coordGenerator(7)),
+      ...Board.emptyRow(Board.coordGenerator(7))
     ];
 
     return new Board(fields);
   }
 
   static fromJSON(json: string[]): Board {
-    const fields = json.map((item, index) =>
-      new Field(Coordinates.fromIndex(index), deserialize(item)));
+    const fields = json.map((item, index) => new Field(Coordinates.fromIndex(index), deserialize(item)));
     return new Board(fields);
   }
 
@@ -95,19 +84,18 @@ export class Board {
       ...Board.emptyRow(Board.coordGenerator(4)),
       ...Board.emptyRow(Board.coordGenerator(5)),
       ...Board.pawnRow(Board.coordGenerator(6), Player.Human),
-      ...Board.piecesRow(Board.coordGenerator(7), Player.Human),
+      ...Board.piecesRow(Board.coordGenerator(7), Player.Human)
     ];
 
     return new Board(fields);
-  };
+  }
 
   public at(coordinates: Coordinates): Field {
     return this.fields[coordinates.index];
   }
 
   public clone(): Board {
-    const fields = this.fields
-      .map((field) => field.clone());
+    const fields = this.fields.map(field => field.clone());
     return new Board(fields);
   }
 
@@ -124,16 +112,14 @@ export class Board {
   public makeMove({ from, to }: Move): Board {
     const { isEmpty, piece } = this.at(from);
     if (isEmpty) throw new Error('can`t make move from empty field');
-    const clone = this
-      .emptyAt(from)
-      .setAt(to, piece.clone());
+    const clone = this.emptyAt(from).setAt(to, piece.clone());
     return clone;
   }
 
   public toString(): string {
     let str = '';
     this.fields.forEach((field, index) => {
-      const ending = ((index + 1) % 8) === 0 ? '\n' : '';
+      const ending = (index + 1) % 8 === 0 ? '\n' : '';
       str += `${field}${ending}`;
     });
     return str;
@@ -144,32 +130,24 @@ export class Board {
   }
 
   public get winner(): Player {
-    const [king1, king2] = [
-      ...this.fieldsByPlayer(Player.CPU),
-      ...this.fieldsByPlayer(Player.Human)
-    ].filter(({ piece }) => piece instanceof King)
+    const [king1, king2] = [...this.fieldsByPlayer(Player.CPU), ...this.fieldsByPlayer(Player.Human)]
+      .filter(({ piece }) => piece instanceof King)
       .map(({ piece }) => piece);
 
-    return (king1 && king2)
-      ? Player.None
-      : king1.player;
+    return king1 && king2 ? Player.None : king1.player;
   }
 
   public fieldsByPlayer(player: Player): Field[] {
-    return this.fields
-      .filter(field => !field.isEmpty && field.piece.player === player);
+    return this.fields.filter(field => !field.isEmpty && field.piece.player === player);
   }
 
   public possibleMoves(player: Player): Move[] {
     return this.fieldsByPlayer(player)
-      .map((field) => field.possibleMoves(this))
+      .map(field => field.possibleMoves(this))
       .reduce((acc, moves) => acc.concat(moves), []);
   }
 
   public toJSON(): string[] {
-    return this.fields.map(({ isEmpty, piece }) =>
-      isEmpty ? null : `${piece}`);
+    return this.fields.map(({ isEmpty, piece }) => (isEmpty ? null : `${piece}`));
   }
-
-
 }

@@ -1,18 +1,19 @@
 import { Piece } from './piece';
 import { Coordinates } from '../coordinates';
-import { Board, Player } from '../board';
+import { Board } from '../board';
+import { Player } from '../player';
 
 export class Pawn extends Piece {
-  readonly _weight:number = 1;
+  readonly _weight: number = 1;
 
-  toString(): string { return this.player == Player.Human ? '♙' : '♟' };
+  toString(): string {
+    return this.player == Player.Human ? '♙' : '♟';
+  }
 
   weight({ row }: Coordinates): number {
-    const coefficient = .01;
+    const coefficient = 0.01;
     const human = this.player === Player.Human;
-    return human
-      ? this._weight - (row * coefficient)
-      : this._weight - ((7 - row) * coefficient);
+    return human ? this._weight - row * coefficient : this._weight - (7 - row) * coefficient;
   }
 
   possibleMoves(coordinates: Coordinates, board: Board): Coordinates[] {
@@ -46,9 +47,9 @@ export class Pawn extends Piece {
       ? [coordinates.upleft(), coordinates.upright()]
       : [coordinates.downleft(), coordinates.downright()];
 
-    strikes = strikes.filter(coord => coord !== null
-      && !board.at(coord).isEmpty
-      && board.at(coord).piece.player !== this.player);
+    strikes = strikes.filter(
+      coord => coord !== null && !board.at(coord).isEmpty && board.at(coord).piece.player !== this.player
+    );
     return [...freeMoves, ...strikes];
   }
 

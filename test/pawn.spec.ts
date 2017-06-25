@@ -1,15 +1,10 @@
 /// <reference path="../typings/index.d.ts" />
-import { Board, Player } from '../src/board';
-import { Field } from '../src/field';
-import { Coordinates } from '../src/coordinates';
-import { Pawn } from '../src/pieces/index';
+import { Board, Player, Field, Coordinates, Pawn } from '../src/index';
 import * as chai from 'chai';
 const { assert, expect } = chai;
 
 describe('Pawn', () => {
-
   describe('Human', () => {
-
     it('determines its possible move correctly, no obstacles', () => {
       const board = Board.newGame();
       const coords = Coordinates.from(1, 6);
@@ -50,11 +45,9 @@ describe('Pawn', () => {
       const moves = pawn.possibleMoves(coords, clone);
       expect(moves).to.eql([frontCoords, strikeCoords]);
     });
-
   });
 
   describe('CPU', () => {
-
     it('determines its possible move correctly, no obstacles', () => {
       const board = Board.newGame();
       const coords = Coordinates.from(1, 1);
@@ -106,7 +99,5 @@ describe('Pawn', () => {
       const weight2 = (<Pawn>piece2).weight(coordinates2);
       expect(weight1 < weight2).to.eq(true);
     });
-
   });
-
 });
